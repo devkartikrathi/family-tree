@@ -72,8 +72,8 @@ export default function TreeIndexPage() {
                 throw new Error(err.error || 'Failed to join family');
             }
 
-            const family = await res.json();
-            router.push(`/tree/${family.id}`);
+            const data = await res.json();
+            router.push(`/tree/${data.family.id}`);
         } catch (error) {
             if (error instanceof Error) {
                 toast.error(error.message);
