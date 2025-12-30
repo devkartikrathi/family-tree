@@ -1,0 +1,89 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id        String   @id
+  email     String
+  createdAt DateTime @default(now())
+  families  Family[] @relation("OwnedFamilies")
+  memberships FamilyMember[]
+  
+  @@map("users")
+}
+
+model FamilyMember {
+  id        String   @id @default(uuid())
+  userId    String
+  familyId  String
+  joinedAt  DateTime @default(now())
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  family    Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, familyId])
+  @@map("family_members")
+}
+
+model Family {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  nodes     FamilyNode[]
+  edges     FamilyEdge[]
+  
+  userId    String?
+  user      User?    @relation("OwnedFamilies", fields: [userId], references: [id])
+  members   FamilyMember[]
+  
+  @@map("families")
+}
+
+model FamilyNode {
+  id        String   @id @default(uuid())
+  familyId  String
+  family    Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  
+  // Storing the complex object as JSONB
+  // This maps to our FamilyNodeData type
+  data      Json
+  
+  // React Flow specific
+  positionX Float
+  positionY Float
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Edges where this node is source or target
+  outgoingEdges FamilyEdge[] @relation("SourceNode")
+  incomingEdges FamilyEdge[] @relation("TargetNode")
+
+  @@map("family_nodes")
+}
+
+model FamilyEdge {
+  id        String   @id @default(uuid())
+  familyId  String
+  family    Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  
+  source    String
+  target    String
+  
+  sourceNode FamilyNode @relation("SourceNode", fields: [source], references: [id], onDelete: Cascade)
+  targetNode FamilyNode @relation("TargetNode", fields: [target], references: [id], onDelete: Cascade)
+  
+  // "PARENT_OF" usually
+  relationshipType String
+  
+  createdAt DateTime @default(now())
+
+  @@map("family_edges")
+}
