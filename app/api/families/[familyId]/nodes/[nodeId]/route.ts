@@ -8,11 +8,11 @@ import { logger } from '@/lib/logger';
 
 export async function PUT(
     request: Request,
-    { params }: { params: Promise<{ id: string; nodeId: string }> }
+    { params }: { params: Promise<{ familyId: string; nodeId: string }> }
 ) {
     try {
         const { userId } = await auth();
-        const { id, nodeId } = await params;
+        const { familyId, nodeId } = await params;
 
         if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -20,7 +20,7 @@ export async function PUT(
 
 
         const family = await prisma.family.findUnique({
-            where: { id },
+            where: { id: familyId },
             include: { members: { where: { userId } } }
         });
 
@@ -42,22 +42,22 @@ export async function PUT(
             );
         }
 
-        const updatedNode = await storage.updateNode(id, nodeId, validation.data as Partial<AppNode>);
-        logger.info({ familyId: id, nodeId, userId }, 'Node updated');
+        const updatedNode = await storage.updateNode(familyId, nodeId, validation.data as Partial<AppNode>);
+        logger.info({ familyId, nodeId, userId }, 'Node updated');
         return NextResponse.json(updatedNode);
     } catch (error) {
-        logger.error({ err: error, familyId: (await params).id, nodeId: (await params).nodeId }, 'Failed to update node');
+        logger.error({ err: error, familyId: (await params).familyId, nodeId: (await params).nodeId }, 'Failed to update node');
         return NextResponse.json({ error: 'Failed to update node' }, { status: 500 });
     }
 }
 
 export async function DELETE(
     request: Request,
-    { params }: { params: Promise<{ id: string; nodeId: string }> }
+    { params }: { params: Promise<{ familyId: string; nodeId: string }> }
 ) {
     try {
         const { userId } = await auth();
-        const { id, nodeId } = await params;
+        const { familyId, nodeId } = await params;
 
         if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -65,7 +65,7 @@ export async function DELETE(
 
 
         const family = await prisma.family.findUnique({
-            where: { id },
+            where: { id: familyId },
             include: { members: { where: { userId } } }
         });
 
@@ -77,11 +77,11 @@ export async function DELETE(
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
 
-        await storage.deleteNode(id, nodeId);
-        logger.info({ familyId: id, nodeId, userId }, 'Node deleted');
+        await storage.deleteNode(familyId, nodeId);
+        logger.info({ familyId, nodeId, userId }, 'Node deleted');
         return NextResponse.json({ success: true });
     } catch (error) {
-        logger.error({ err: error, familyId: (await params).id, nodeId: (await params).nodeId }, 'Failed to delete node');
+        logger.error({ err: error, familyId: (await params).familyId, nodeId: (await params).nodeId }, 'Failed to delete node');
         return NextResponse.json({ error: 'Failed to delete node' }, { status: 500 });
     }
 }

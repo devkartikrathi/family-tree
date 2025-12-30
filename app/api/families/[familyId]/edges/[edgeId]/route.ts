@@ -6,11 +6,11 @@ import { logger } from '@/lib/logger';
 
 export async function DELETE(
     request: Request,
-    { params }: { params: Promise<{ id: string; edgeId: string }> }
+    { params }: { params: Promise<{ familyId: string; edgeId: string }> }
 ) {
     try {
         const { userId } = await auth();
-        const { id, edgeId } = await params;
+        const { familyId, edgeId } = await params;
 
         if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -18,7 +18,7 @@ export async function DELETE(
 
 
         const family = await prisma.family.findUnique({
-            where: { id },
+            where: { id: familyId },
             include: { members: { where: { userId } } }
         });
 
@@ -30,11 +30,11 @@ export async function DELETE(
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
 
-        await storage.deleteEdge(id, edgeId);
-        logger.info({ familyId: id, edgeId, userId }, 'Edge deleted');
+        await storage.deleteEdge(familyId, edgeId);
+        logger.info({ familyId, edgeId, userId }, 'Edge deleted');
         return NextResponse.json({ success: true });
     } catch (error) {
-        logger.error({ err: error, familyId: (await params).id, edgeId: (await params).edgeId }, 'Failed to delete edge');
+        logger.error({ err: error, familyId: (await params).familyId, edgeId: (await params).edgeId }, 'Failed to delete edge');
         return NextResponse.json({ error: 'Failed to delete edge' }, { status: 500 });
     }
 }
