@@ -2,10 +2,16 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+    DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 import { FamilyMember, Role } from "@/lib/types";
 import { Button } from "@/components/ui/button";
-import { UsersIcon, ShieldAlertIcon, ShieldCheckIcon, UserIcon } from "lucide-react";
+import { UsersIcon, ShieldAlertIcon, ShieldCheckIcon, UserIcon, MoreVertical, Crown, Trash2 } from "lucide-react";
 
 interface MembersSidebarProps {
     open: boolean;
@@ -13,6 +19,7 @@ interface MembersSidebarProps {
     members: FamilyMember[];
     currentUserId?: string;
     onUpdateRole: (userId: string, newRole: Role) => Promise<void>;
+    onRemoveMember: (userId: string) => Promise<void>;
     onJoin: () => void;
 }
 
@@ -22,102 +29,149 @@ export function MembersSidebar({
     members,
     currentUserId,
     onUpdateRole,
+    onRemoveMember,
     onJoin
 }: MembersSidebarProps) {
 
     const currentUserMember = members.find(m => m.userId === currentUserId);
     const isMember = !!currentUserMember;
     const isCreator = currentUserMember?.role === 'CREATOR';
+    const isAdmin = currentUserMember?.role === 'ADMIN';
 
     const getRoleColor = (role: Role) => {
         switch (role) {
-            case 'CREATOR': return 'bg-green-500 hover:bg-green-600 text-white border-transparent';
-            case 'ADMIN': return 'bg-yellow-500 hover:bg-yellow-600 text-white border-transparent';
-            case 'MEMBER': return 'bg-gray-500 hover:bg-gray-600 text-white border-transparent';
-            default: return 'bg-gray-500';
+            case 'CREATOR': return 'bg-emerald-500/15 text-emerald-600 border-emerald-500/20 hover:bg-emerald-500/25';
+            case 'ADMIN': return 'bg-amber-500/15 text-amber-600 border-amber-500/20 hover:bg-amber-500/25';
+            case 'MEMBER': return 'bg-slate-500/15 text-slate-600 border-slate-500/20 hover:bg-slate-500/25';
+            default: return 'bg-slate-100 text-slate-600';
         }
     };
 
     const getRoleIcon = (role: Role) => {
         switch (role) {
-            case 'CREATOR': return <ShieldAlertIcon className="w-3 h-3 mr-1" />;
+            case 'CREATOR': return <Crown className="w-3 h-3 mr-1" />;
             case 'ADMIN': return <ShieldCheckIcon className="w-3 h-3 mr-1" />;
             default: return <UserIcon className="w-3 h-3 mr-1" />;
         }
     };
 
     const sortedMembers = [...members].sort((a, b) => {
-        // Creator first, then Admin, then Member
         const order = { CREATOR: 0, ADMIN: 1, MEMBER: 2 };
         return order[a.role] - order[b.role];
     });
 
     return (
         <Sheet open={open} onOpenChange={(open) => !open && onClose()} modal={false}>
-            <SheetContent side="left" className="w-[300px] sm:w-[350px] p-0 border-r shadow-xl flex flex-col h-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                <SheetHeader className="p-4 border-b text-left">
-                    <SheetTitle className="flex items-center gap-2">
-                        <UsersIcon className="w-5 h-5" />
-                        Family Members ({members.length})
+            <SheetContent 
+                side="left" 
+                className="w-[320px] sm:w-[380px] p-0 border-r border-border/40 shadow-2xl flex flex-col h-full bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60"
+            >
+                <SheetHeader className="p-6 border-b border-border/40">
+                    <SheetTitle className="flex items-center gap-2 text-xl font-semibold tracking-tight">
+                        <UsersIcon className="w-5 h-5 text-primary" />
+                        Family Members
+                        <span className="text-muted-foreground text-sm font-normal ml-auto bg-muted px-2 py-0.5 rounded-full mr-6">
+                            {members.length}
+                        </span>
                     </SheetTitle>
                 </SheetHeader>
 
-                <ScrollArea className="flex-1 p-4">
-                    <div className="space-y-4">
-                        {sortedMembers.map((member) => (
-                            <div key={member.id} className="flex items-start gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors">
-                                <Avatar className="w-10 h-10 border">
-                                    <AvatarImage src="" /> {/* Avatar URL not available in simple schema yet */}
-                                    <AvatarFallback>{member.user?.email?.[0]?.toUpperCase() || 'U'}</AvatarFallback>
-                                </Avatar>
-                                <div className="flex-1 min-w-0">
-                                    <div className="flex items-center justify-between gap-2 mb-1">
-                                        <p className="font-medium text-sm truncate" title={member.user?.email}>
-                                            {member.user?.email || 'Unknown User'}
-                                        </p>
-                                    </div>
+                <ScrollArea className="flex-1 px-4 py-6">
+                    <div className="space-y-3">
+                        {sortedMembers.map((member) => {
+                            let name = member.user?.name;
+                            if (!name && member.user?.email) {
+                                name = member.user.email.split('@')[0];
+                            }
+                            name = name || 'Unknown';
+                            
+                            const initial = name.charAt(0).toUpperCase();
+
+                            return (
+                                <div 
+                                    key={member.id} 
+                                    className="group flex items-center gap-3 p-3 rounded-xl hover:bg-muted/40 transition-all duration-200 border border-transparent hover:border-border/40"
+                                >
+                                    <Avatar className="w-12 h-12 border-2 border-background shadow-sm ring-1 ring-border/10">
+                                        <AvatarImage src={member.user?.image || ""} />
+                                        <AvatarFallback className="bg-primary/5 text-primary font-medium">
+                                            {initial}
+                                        </AvatarFallback>
+                                    </Avatar>
                                     
-                                    <div className="flex items-center justify-between">
-                                         {/* If Creator and looking at someone else, allow change */}
-                                         {isCreator && member.userId !== currentUserId ? (
-                                             <Select 
-                                                defaultValue={member.role}
-                                                onValueChange={(val) => onUpdateRole(member.userId, val as Role)}
-                                             >
-                                                <SelectTrigger className="h-7 text-xs w-[110px] bg-transparent border-muted-foreground/30">
-                                                    <div className="flex items-center">
-                                                        <Badge variant="outline" className={`mr-1 px-1 py-0 h-4 border-0 ${getRoleColor(member.role)}`}>
-                                                            {getRoleIcon(member.role)}
-                                                       </Badge>
-                                                       <SelectValue />
-                                                    </div>
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="ADMIN">Admin</SelectItem>
-                                                    <SelectItem value="MEMBER">Member</SelectItem>
-                                                    {/* Creator cannot transfer ownership here easily without extra logic, keeping it simple */}
-                                                </SelectContent>
-                                             </Select>
-                                         ) : (
-                                            <Badge variant="secondary" className={`flex items-center gap-1 text-[10px] px-2 py-0.5 pointer-events-none ${getRoleColor(member.role)}`}>
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex items-center justify-between mb-1">
+                                            <p className="font-semibold text-sm truncate text-foreground/90">
+                                                {name}
+                                            </p>
+                                        </div>
+                                        
+                                        <div className="flex items-center gap-2">
+                                            <Badge 
+                                                variant="outline" 
+                                                className={`flex items-center gap-0.5 h-5 px-1.5 text-[10px] uppercase tracking-wider font-semibold border ${getRoleColor(member.role)}`}
+                                            >
                                                 {getRoleIcon(member.role)}
                                                 {member.role}
                                             </Badge>
-                                         )}
+                                            <span className="text-[10px] text-muted-foreground/60">
+                                                • Joined {new Date(member.joinedAt).getFullYear()}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <p className="text-[10px] text-muted-foreground mt-1">
-                                        Joined {new Date(member.joinedAt).toLocaleDateString()}
-                                    </p>
+
+                                    {/* Action Menu (Creator can remove/change anyone, Admin can remove members) */}
+                                    {((isCreator && member.userId !== currentUserId) || (isAdmin && member.role === 'MEMBER')) && (
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button 
+                                                    variant="ghost" 
+                                                    size="icon" 
+                                                    className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-foreground"
+                                                >
+                                                    <MoreVertical className="w-4 h-4" />
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end" className="w-40">
+                                                {isCreator && (
+                                                    <>
+                                                        <DropdownMenuItem onClick={() => onUpdateRole(member.userId, 'ADMIN')}>
+                                                            <ShieldCheckIcon className="w-4 h-4 mr-2" />
+                                                            Make Admin
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem onClick={() => onUpdateRole(member.userId, 'MEMBER')}>
+                                                            <UserIcon className="w-4 h-4 mr-2" />
+                                                            Make Member
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuSeparator />
+                                                    </>
+                                                )}
+                                                
+                                                <DropdownMenuItem 
+                                                    onClick={() => onRemoveMember(member.userId)}
+                                                    className="text-destructive focus:text-destructive focus:bg-destructive/10"
+                                                >
+                                                    <Trash2 className="w-4 h-4 mr-2" />
+                                                    Remove Member
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    )}
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </ScrollArea>
                 
-                
                 {!isMember && (
-                    <div className="p-4 border-t mt-auto">
-                        <Button className="w-full" onClick={onJoin}>Join Family</Button>
+                    <div className="p-6 border-t border-border/40 mt-auto bg-gradient-to-t from-background/50 to-transparent">
+                        <Button 
+                            className="w-full shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all" 
+                            size="lg"
+                            onClick={onJoin}
+                        >
+                            Join Family Tree
+                        </Button>
                     </div>
                 )}
             </SheetContent>

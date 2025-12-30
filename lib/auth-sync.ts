@@ -16,14 +16,21 @@ export async function syncUser(): Promise<User | null> {
         return null;
     }
 
+    const name = `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || 'Unknown';
+    const image = clerkUser.imageUrl;
+
     const user = await prisma.user.upsert({
         where: { id: clerkUser.id },
         update: {
             email: email,
+            name: name,
+            image: image
         },
         create: {
             id: clerkUser.id,
             email: email,
+            name: name,
+            image: image
         },
     });
 

@@ -442,6 +442,25 @@ export default function FamilyTreePage() {
       return <div className="min-h-screen flex items-center justify-center bg-background text-muted-foreground">Loading your legacy...</div>;
   }
 
+  const handleRemoveMember = async (userId: string) => {
+    if (!canEdit) return;
+    try {
+        const res = await fetch(`/api/families/${familyId}/members/${userId}`, {
+            method: 'DELETE'
+        });
+
+        if (!res.ok) {
+            const err = await res.json();
+             throw new Error(err.error || 'Failed to remove member');
+        }
+        
+        setMembers(prev => prev.filter(m => m.userId !== userId));
+        toast.success("Member removed");
+    } catch (e: any) {
+        toast.error(e.message);
+    }
+  };
+
   return (
     <div className="relative w-full h-screen overflow-hidden bg-background">
       <FamilyCanvas 
@@ -456,18 +475,20 @@ export default function FamilyTreePage() {
       
 
 
-      <div className="absolute top-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center bg-background/80 backdrop-blur-sm px-6 py-3 rounded-full border border-border shadow-sm transition-all max-w-[90vw] w-auto">
-          <h1 className="text-xl md:text-xl font-bold text-foreground whitespace-nowrap overflow-hidden text-ellipsis max-w-full">{familyName}</h1>
+      <div className="absolute top-6 left-1/2 -translate-x-1/2 z-10 max-w-[50vw]">
+          <div className="flex flex-col items-center justify-center h-12 px-6 bg-background/80 backdrop-blur-md rounded-full border border-border/50 shadow-md transition-all hover:shadow-lg cursor-default select-none">
+              <h1 className="text-base md:text-lg font-semibold text-foreground whitespace-nowrap overflow-hidden text-ellipsis">{familyName}</h1>
+          </div>
       </div>
 
        <div className="absolute top-6 left-6 z-10">
             <Button
                 onClick={() => setMembersSidebarOpen(true)}
-                className="shadow-lg h-10 w-10 md:w-auto md:px-4 rounded-full md:rounded-md p-0"
+                className="h-12 w-12 md:w-auto md:px-5 rounded-full shadow-md bg-background/80 backdrop-blur-md border border-border/50 hover:bg-background/90"
                 variant="outline"
             >
-                <Users className="w-5 h-5 md:w-4 md:h-4 md:mr-2" />
-                <span className="hidden md:inline">Members</span>
+                <Users className="w-5 h-5 md:mr-2" />
+                <span className="hidden md:inline font-medium">Members</span>
             </Button>
        </div>
 
@@ -476,18 +497,17 @@ export default function FamilyTreePage() {
 
       {!sidebarOpen && (
         <>
-           <div className="absolute top-6 right-6 md:top-6 md:right-6 z-10">
+           <div className="absolute top-6 right-6 z-10">
                 <Button 
                     onClick={() => {
                         setSelectedNode(null);
                         setSidebarMode('VIEW');
                         setSidebarOpen(true);
                     }}
-                    className="shadow-lg h-10 w-10 md:w-auto md:px-4 rounded-full md:rounded-md p-0"
-                    variant="default"
+                    className="h-12 w-12 md:w-auto md:px-5 rounded-full shadow-md bg-foreground text-background hover:bg-foreground/90"
                 >
-                    <MenuIcon className="w-5 h-5 md:w-4 md:h-4 md:mr-2" /> 
-                    <span className="hidden md:inline">Menu</span>
+                    <MenuIcon className="w-5 h-5 md:mr-2" /> 
+                    <span className="hidden md:inline font-medium">Menu</span>
                 </Button>
            </div>
             
@@ -533,6 +553,7 @@ export default function FamilyTreePage() {
         members={members}
         currentUserId={user?.id}
         onUpdateRole={handleUpdateMemberRole}
+        onRemoveMember={handleRemoveMember}
         onJoin={handleJoin}
       />
 

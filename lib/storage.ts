@@ -44,6 +44,17 @@ export const storage = {
         });
     },
 
+    async removeMember(familyId: string, userId: string) {
+        return await prisma.familyMember.delete({
+            where: {
+                userId_familyId: {
+                    userId,
+                    familyId
+                }
+            }
+        });
+    },
+
     async getFamily(id: string): Promise<FamilyGraph | null> {
         const family = await prisma.family.findUnique({
             where: { id },
@@ -113,7 +124,7 @@ export const storage = {
     async getMembers(familyId: string): Promise<FamilyMember[]> {
         const members = await prisma.familyMember.findMany({
             where: { familyId },
-            include: { user: { select: { email: true } } }
+            include: { user: { select: { email: true, name: true, image: true } } }
         });
 
         return members.map(m => ({
@@ -122,7 +133,11 @@ export const storage = {
             familyId: m.familyId,
             role: m.role as Role,
             joinedAt: m.joinedAt.toISOString(),
-            user: m.user ? { email: m.user.email } : undefined
+            user: m.user ? {
+                email: m.user.email,
+                name: m.user.name,
+                image: m.user.image
+            } : undefined
         }));
     },
 

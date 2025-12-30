@@ -19,7 +19,8 @@ export interface FamilyMember {
     joinedAt: string;
     user?: {
         email: string;
-        // Add other user fields if needed
+        name: string | null;
+        image: string | null;
     };
 }
 
