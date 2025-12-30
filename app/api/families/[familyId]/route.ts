@@ -6,11 +6,11 @@ import { logger } from '@/lib/logger';
 
 export async function GET(
     request: Request,
-    { params }: { params: Promise<{ id: string }> }
+    { params }: { params: Promise<{ familyId: string }> }
 ) {
     try {
         const { userId } = await auth();
-        const { id } = await params;
+        const { familyId } = await params;
 
         if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -18,7 +18,7 @@ export async function GET(
 
 
         const family = await prisma.family.findUnique({
-            where: { id },
+            where: { id: familyId },
             include: {
                 members: {
                     where: { userId }
@@ -38,7 +38,7 @@ export async function GET(
         }
 
 
-        const graph = await storage.getFamily(id);
+        const graph = await storage.getFamily(familyId);
 
         if (!graph) {
             return NextResponse.json({ error: 'Family not found' }, { status: 404 });
@@ -47,18 +47,18 @@ export async function GET(
         return NextResponse.json(graph);
 
     } catch (error) {
-        logger.error({ err: error, familyId: (await params).id }, 'Get family error');
+        logger.error({ err: error, familyId: (await params).familyId }, 'Get family error');
         return NextResponse.json({ error: 'Failed to fetch family' }, { status: 500 });
     }
 }
 
 export async function DELETE(
     request: Request,
-    { params }: { params: Promise<{ id: string }> }
+    { params }: { params: Promise<{ familyId: string }> }
 ) {
     try {
         const { userId } = await auth();
-        const { id } = await params;
+        const { familyId } = await params;
 
         if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -66,7 +66,7 @@ export async function DELETE(
 
 
         const family = await prisma.family.findUnique({
-            where: { id }
+            where: { id: familyId }
         });
 
         if (!family) {
@@ -78,14 +78,14 @@ export async function DELETE(
         }
 
         await prisma.family.delete({
-            where: { id }
+            where: { id: familyId }
         });
 
-        logger.info({ familyId: id, userId }, 'Family deleted');
+        logger.info({ familyId, userId }, 'Family deleted');
         return NextResponse.json({ success: true });
 
     } catch (error) {
-        logger.error({ err: error, familyId: (await params).id }, 'Delete family error');
+        logger.error({ err: error, familyId: (await params).familyId }, 'Delete family error');
         return NextResponse.json({ error: 'Failed to delete family' }, { status: 500 });
     }
 }

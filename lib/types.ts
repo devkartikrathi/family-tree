@@ -9,6 +9,20 @@ export interface Family {
     userId?: string | null;
 }
 
+export type Role = 'CREATOR' | 'ADMIN' | 'MEMBER';
+
+export interface FamilyMember {
+    id: string;
+    userId: string;
+    familyId: string;
+    role: Role;
+    joinedAt: string;
+    user?: {
+        email: string;
+        // Add other user fields if needed
+    };
+}
+
 export interface PersonMetadata {
     dateOfBirth?: string;
     dateOfDeath?: string;

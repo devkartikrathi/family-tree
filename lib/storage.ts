@@ -1,5 +1,5 @@
 
-import { AppNode, AppEdge, Family, FamilyGraph, FamilyNodeData } from './types';
+import { AppNode, AppEdge, Family, FamilyGraph, FamilyNodeData, FamilyMember, Role } from './types';
 import { prisma } from './db';
 import { Prisma } from '@prisma/client';
 
@@ -94,10 +94,48 @@ export const storage = {
             }
         });
 
+        if (userId) {
+            await prisma.familyMember.create({
+                data: {
+                    familyId: family.id,
+                    userId,
+                    role: 'CREATOR'
+                }
+            });
+        }
+
         return {
             ...family,
             createdAt: family.createdAt.toISOString()
         };
+    },
+
+    async getMembers(familyId: string): Promise<FamilyMember[]> {
+        const members = await prisma.familyMember.findMany({
+            where: { familyId },
+            include: { user: { select: { email: true } } }
+        });
+
+        return members.map(m => ({
+            id: m.id,
+            userId: m.userId,
+            familyId: m.familyId,
+            role: m.role as Role,
+            joinedAt: m.joinedAt.toISOString(),
+            user: m.user ? { email: m.user.email } : undefined
+        }));
+    },
+
+    async updateMemberRole(familyId: string, userId: string, role: Role) {
+        return await prisma.familyMember.update({
+            where: {
+                userId_familyId: {
+                    userId,
+                    familyId
+                }
+            },
+            data: { role }
+        });
     },
 
     async updateFamily(id: string, name: string): Promise<Family> {

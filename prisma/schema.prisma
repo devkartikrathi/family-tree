@@ -24,12 +24,19 @@ model FamilyMember {
   userId    String
   familyId  String
   joinedAt  DateTime @default(now())
+  role      Role     @default(MEMBER)
   
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   family    Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
 
   @@unique([userId, familyId])
   @@map("family_members")
+}
+
+enum Role {
+  CREATOR
+  ADMIN
+  MEMBER
 }
 
 model Family {

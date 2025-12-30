@@ -8,11 +8,11 @@ import { logger } from '@/lib/logger';
 
 export async function POST(
     request: Request,
-    { params }: { params: Promise<{ id: string }> }
+    { params }: { params: Promise<{ familyId: string }> }
 ) {
     try {
         const { userId } = await auth();
-        const { id } = await params;
+        const { familyId } = await params;
 
         if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -20,7 +20,7 @@ export async function POST(
 
 
         const family = await prisma.family.findUnique({
-            where: { id },
+            where: { id: familyId },
             include: { members: { where: { userId } } }
         });
 
@@ -42,11 +42,11 @@ export async function POST(
             );
         }
 
-        const newEdge = await storage.addEdge(id, validation.data as AppEdge);
-        logger.info({ familyId: id, edgeId: newEdge.id, userId }, 'Edge created');
+        const newEdge = await storage.addEdge(familyId, validation.data as AppEdge);
+        logger.info({ familyId, edgeId: newEdge.id, userId }, 'Edge created');
         return NextResponse.json(newEdge, { status: 201 });
     } catch (error) {
-        logger.error({ err: error, familyId: (await params).id }, 'Failed to create edge');
+        logger.error({ err: error, familyId: (await params).familyId }, 'Failed to create edge');
         return NextResponse.json({ error: 'Failed to create edge' }, { status: 500 });
     }
 }

@@ -8,11 +8,11 @@ import { logger } from '@/lib/logger';
 
 export async function POST(
     request: Request,
-    { params }: { params: Promise<{ id: string }> }
+    { params }: { params: Promise<{ familyId: string }> }
 ) {
     try {
         const { userId } = await auth();
-        const { id } = await params;
+        const { familyId } = await params;
 
         if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -20,7 +20,7 @@ export async function POST(
 
 
         const family = await prisma.family.findUnique({
-            where: { id },
+            where: { id: familyId },
             include: { members: { where: { userId } } }
         });
 
@@ -42,11 +42,11 @@ export async function POST(
             );
         }
 
-        const newNode = await storage.addNode(id, validation.data as AppNode);
-        logger.info({ familyId: id, nodeId: newNode.id, userId }, 'Node created');
+        const newNode = await storage.addNode(familyId, validation.data as AppNode);
+        logger.info({ familyId, nodeId: newNode.id, userId }, 'Node created');
         return NextResponse.json(newNode, { status: 201 });
     } catch (error) {
-        logger.error({ err: error, familyId: (await params).id }, 'Failed to create node');
+        logger.error({ err: error, familyId: (await params).familyId }, 'Failed to create node');
         return NextResponse.json({ error: 'Failed to create node' }, { status: 500 });
     }
 }
