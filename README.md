@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Legacy - Collaborative Family Tree Builder
+
+Legacy is a modern, collaborative web application designed to help you build, visualize, and preserve your family history. With an intuitive interface and powerful features, you can create detailed family trees, document life stories, and share your heritage with loved ones.
+
+## Features
+
+- **Interactive Family Tree**: Visualize your ancestry with a dynamic, easy-to-navigate graph based on React Flow.
+- **Collaborative Editing**: Invite family members to join your tree and contribute their knowledge.
+- **Detailed Profiles**: Store rich information for every family member, including birth/death dates, locations, and personal notes.
+- **Smart Layouts**: Automatically organizes your family tree into a clear, readable generation-based structure.
+- **Secure & Private**: Built with Clerk authentication to ensure your family data remains private and secure.
+
+## Tech Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Language**: TypeScript
+- **Visualization**: [React Flow](https://reactflow.dev/)
+- **Database**: PostgreSQL with [Prisma ORM](https://www.prisma.io/)
+- **Authentication**: [Clerk](https://clerk.com/)
+- **Styling**: Tailwind CSS
+- **UI Components**: Radix UI, Lucide Icons, Sonner
 
 ## Getting Started
 
-First, run the development server:
+1.  **Clone the repository**:
+    ```bash
+    git clone <repository-url>
+    cd family-tree
+    ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3.  **Set up environment variables**:
+    Create a `.env` file in the root directory and add the following keys:
+    ```env
+    DATABASE_URL="postgresql://..."
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_test_..."
+    CLERK_SECRET_KEY="sk_test_..."
+    ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4.  **Run database migrations**:
+    ```bash
+    npx prisma generate
+    npx prisma db push
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+5.  **Start the development server**:
+    ```bash
+    npm run dev
+    ```
 
-## Learn More
+    Open [http://localhost:3000](http://localhost:3000) with your browser to start building your legacy.
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is private.

@@ -1,6 +1,7 @@
 {
   "name": "family-tree",
   "version": "0.1.0",
+  "description": "A collaborative family tree building application",
   "private": true,
   "scripts": {
     "dev": "next dev",
