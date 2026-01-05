@@ -61,7 +61,7 @@ export function NodeDetails({ node, onEdit, onAddChild, onDelete }: NodeDetailsP
                             </div>
                             <div>
                                 <span className="text-muted-foreground block text-xs">Status</span>
-                                {primary.alive ? 'Living' : 'Deceased'}
+                                {(primary.alive ?? true) ? 'Living' : 'Deceased'}
                             </div>
                             <div>
                                 <span className="text-muted-foreground block text-xs">Occupation</span>
@@ -71,7 +71,7 @@ export function NodeDetails({ node, onEdit, onAddChild, onDelete }: NodeDetailsP
                                 <span className="text-muted-foreground block text-xs">Birth Location</span>
                                 {primary.birthLocation || '-'}
                             </div>
-                            {!primary.alive && (
+                            {!(primary.alive ?? true) && (
                                 <div>
                                     <span className="text-muted-foreground block text-xs">Death Location</span>
                                     {primary.deathLocation || '-'}
@@ -115,7 +115,7 @@ export function NodeDetails({ node, onEdit, onAddChild, onDelete }: NodeDetailsP
                                 </div>
                                 <div>
                                     <span className="text-muted-foreground block text-xs">Status</span>
-                                    {spouse.alive ? 'Living' : 'Deceased'}
+                                    {(spouse.alive ?? true) ? 'Living' : 'Deceased'}
                                 </div>
                                 <div>
                                     <span className="text-muted-foreground block text-xs">Occupation</span>
@@ -125,7 +125,7 @@ export function NodeDetails({ node, onEdit, onAddChild, onDelete }: NodeDetailsP
                                     <span className="text-muted-foreground block text-xs">Birth Location</span>
                                     {spouse.birthLocation || '-'}
                                 </div>
-                                {!spouse.alive && (
+                                {!(spouse.alive ?? true) && (
                                     <div>
                                         <span className="text-muted-foreground block text-xs">Death Location</span>
                                         {spouse.deathLocation || '-'}

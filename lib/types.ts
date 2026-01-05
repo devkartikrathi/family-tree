@@ -32,6 +32,11 @@ export interface PersonMetadata {
     deathLocation?: string;
     occupation?: string;
     notes?: string;
+    city?: string;
+    state?: string;
+    pincode?: string;
+    latitude?: number | string;
+    longitude?: number | string;
 }
 
 export interface FamilyNodeMetadata {

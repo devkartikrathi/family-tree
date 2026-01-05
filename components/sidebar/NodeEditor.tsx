@@ -4,11 +4,21 @@ import { useForm, useWatch } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label";
 import { FamilyNodeData } from "@/lib/types";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useEffect } from "react";
 
+const INDIAN_STATES = [
+    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana",
+    "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur",
+    "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana",
+    "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Andaman and Nicobar Islands", "Chandigarh",
+    "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
+];
 
 const personSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -19,6 +29,11 @@ const personSchema = z.object({
   occupation: z.string().optional(),
   alive: z.boolean(),
   notes: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  pincode: z.string().optional(),
+  latitude: z.union([z.string(), z.number()]).optional(),
+  longitude: z.union([z.string(), z.number()]).optional(),
 });
 
 const formSchema = z.object({
@@ -67,6 +82,11 @@ export function NodeEditor({ initialData, onSave, onCancel }: NodeEditorProps) {
             occupation: initialData?.primary?.occupation || "",
             alive: initialData?.primary?.alive ?? true,
             notes: initialData?.primary?.notes || "",
+            city: initialData?.primary?.city || "",
+            state: initialData?.primary?.state || "",
+            pincode: initialData?.primary?.pincode || "",
+            latitude: initialData?.primary?.latitude || "",
+            longitude: initialData?.primary?.longitude || "",
         },
         hasSpouse: !!initialData?.spouse,
         spouse: initialData?.spouse ? {
@@ -100,6 +120,7 @@ export function NodeEditor({ initialData, onSave, onCancel }: NodeEditorProps) {
     const hasSpouse = useWatch({ control: form.control, name: "hasSpouse" });
     const primaryAlive = useWatch({ control: form.control, name: "primary.alive" });
     const spouseAlive = useWatch({ control: form.control, name: "spouse.alive" });
+
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         const submissionData: FamilyNodeData = {
@@ -167,6 +188,90 @@ export function NodeEditor({ initialData, onSave, onCancel }: NodeEditorProps) {
                                     </FormItem>
                                 )}
                             />
+                            
+                            {/* Location Section */}
+                            <div className="p-3 bg-secondary/20 rounded-md space-y-3">
+                                <h5 className="text-xs font-medium text-muted-foreground uppercase">Current Location (for Map)</h5>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <FormField
+                                        control={form.control}
+                                        name="primary.city"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>City</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="e.g. Mumbai" {...field} />
+                                                </FormControl>
+                                            </FormItem>
+                                        )}
+                                    />
+                                     <FormField
+                                        control={form.control}
+                                        name="primary.state"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>State</FormLabel>
+                                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                    <FormControl>
+                                                        <SelectTrigger>
+                                                            <SelectValue placeholder="Select State" />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent>
+                                                        {INDIAN_STATES.map((state) => (
+                                                            <SelectItem key={state} value={state}>
+                                                                {state}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <FormField
+                                        control={form.control}
+                                        name="primary.pincode"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Pincode</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="e.g. 400001" {...field} />
+                                                </FormControl>
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+
+                                
+                                <div className="grid grid-cols-2 gap-3">
+                                    <FormField
+                                        control={form.control}
+                                        name="primary.latitude"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Latitude (Edit if needed)</FormLabel>
+                                                <FormControl>
+                                                    <Input {...field} value={field.value || ''} onChange={e => field.onChange(e.target.value)} />
+                                                </FormControl>
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="primary.longitude"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Longitude (Edit if needed)</FormLabel>
+                                                <FormControl>
+                                                    <Input {...field} value={field.value || ''} onChange={e => field.onChange(e.target.value)} />
+                                                </FormControl>
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                            </div>
 
                            <div className="grid grid-cols-2 gap-3">
                                 <FormField
@@ -187,7 +292,7 @@ export function NodeEditor({ initialData, onSave, onCancel }: NodeEditorProps) {
                                     name="primary.birthLocation"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Birth Location</FormLabel>
+                                            <FormLabel>Birth Place</FormLabel>
                                             <FormControl>
                                                 <Input placeholder="City, Country" {...field} />
                                             </FormControl>
@@ -237,7 +342,7 @@ export function NodeEditor({ initialData, onSave, onCancel }: NodeEditorProps) {
                                         name="primary.deathLocation"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Death Location</FormLabel>
+                                                <FormLabel>Death Place</FormLabel>
                                                 <FormControl>
                                                     <Input placeholder="City, Country" {...field} />
                                                 </FormControl>
@@ -350,7 +455,7 @@ export function NodeEditor({ initialData, onSave, onCancel }: NodeEditorProps) {
                                         name="spouse.birthLocation"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Birth Location</FormLabel>
+                                                <FormLabel>Birth Place</FormLabel>
                                                 <FormControl>
                                                     <Input placeholder="City, Country" {...field} />
                                                 </FormControl>
@@ -400,7 +505,7 @@ export function NodeEditor({ initialData, onSave, onCancel }: NodeEditorProps) {
                                             name="spouse.deathLocation"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel>Death Location</FormLabel>
+                                                    <FormLabel>Death Place</FormLabel>
                                                     <FormControl>
                                                         <Input placeholder="City, Country" {...field} />
                                                     </FormControl>

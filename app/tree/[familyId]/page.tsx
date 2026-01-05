@@ -7,12 +7,13 @@ import { FamilyCanvas } from '@/components/family-canvas/FamilyCanvas';
 import { Sidebar, SidebarMode } from '@/components/sidebar/Sidebar';
 import { AppNode, AppEdge, FamilyNodeData, FamilyGraph } from '@/lib/types';
 import { Button } from '@/components/ui/button';
-import { MenuIcon, Sparkles, Users } from 'lucide-react';
+import { MenuIcon, Sparkles, Users, Map as MapIcon, Network } from 'lucide-react';
 import { toast } from "sonner";
 import { performAutoLayout } from '@/lib/graphUtils';
 import { useUser } from "@clerk/nextjs";
 import { MembersSidebar } from '@/components/sidebar/MembersSidebar';
 import { FamilyMember, Role } from '@/lib/types';
+import FamilyMapWrapper from '@/components/family-map/MapWrapper';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -47,6 +48,7 @@ export default function FamilyTreePage() {
   
   const [members, setMembers] = useState<FamilyMember[]>([]);
   const [membersSidebarOpen, setMembersSidebarOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<'CANVAS' | 'MAP'>('CANVAS');
 
   const currentUserMember = members.find(m => m.userId === user?.id);
   const myRole = currentUserMember?.role;
@@ -461,20 +463,29 @@ export default function FamilyTreePage() {
     }
   };
 
+
+
+  // ... (previous layout logic)
+
   return (
     <div className="relative w-full h-screen overflow-hidden bg-background">
-      <FamilyCanvas 
-        nodes={nodes} 
-        edges={edges}
-        onNodesChange={handleNodesChange}
-        onEdgesChange={onEdgesChange}
-        onNodeClick={handleNodeClick}
-        onPaneClick={handlePaneClick}
-        onNodeDragStop={handleNodeDragStop}
-      />
+      {viewMode === 'CANVAS' ? (
+          <FamilyCanvas 
+            nodes={nodes} 
+            edges={edges}
+            onNodesChange={handleNodesChange}
+            onEdgesChange={onEdgesChange}
+            onNodeClick={handleNodeClick}
+            onPaneClick={handlePaneClick}
+            onNodeDragStop={handleNodeDragStop}
+          />
+      ) : (
+          <div className="absolute inset-0 z-0">
+             <FamilyMapWrapper nodes={nodes} />
+          </div>
+      )}
       
-
-
+      {/* Centered Title */}
       <div className="absolute top-6 left-1/2 -translate-x-1/2 z-10 max-w-[50vw]">
           <div className="flex flex-col items-center justify-center h-12 px-6 bg-background/80 backdrop-blur-md rounded-full border border-border/50 shadow-md transition-all hover:shadow-lg cursor-default select-none">
               <h1 className="text-base md:text-lg font-semibold text-foreground whitespace-nowrap overflow-hidden text-ellipsis">{familyName}</h1>
@@ -494,9 +505,47 @@ export default function FamilyTreePage() {
 
 
       
-
       {!sidebarOpen && (
         <>
+        <>
+           {/* Controls - Bottom Right */}
+           <div className="absolute bottom-6 right-6 z-10 flex flex-col gap-3 items-end">
+                {/* View Mode Toggle */}
+                <div className="flex flex-col bg-background/80 backdrop-blur-md rounded-full shadow-lg border border-border/50 p-1 gap-1">
+                    <Button
+                        variant={viewMode === 'CANVAS' ? 'secondary' : 'ghost'}
+                        size="icon"
+                        onClick={() => setViewMode('CANVAS')}
+                        className="rounded-full h-10 w-10"
+                        title="Canvas View"
+                    >
+                        <Network className="w-5 h-5" />
+                    </Button>
+                    <Button
+                        variant={viewMode === 'MAP' ? 'secondary' : 'ghost'}
+                        size="icon"
+                        onClick={() => setViewMode('MAP')}
+                        className="rounded-full h-10 w-10"
+                        title="Map View"
+                    >
+                        <MapIcon className="w-5 h-5" />
+                    </Button>
+                </div>
+
+                {viewMode === 'CANVAS' && (
+                    <Button 
+                        onClick={() => {
+                            setNodes(nds => performAutoLayout(nds, edges));
+                        }}
+                        className="shadow-lg h-12 w-12 rounded-full p-0"
+                        variant="outline"
+                        title="Auto Layout"
+                    >
+                        <Sparkles className="w-5 h-5" />
+                    </Button>
+                )}
+           </div>
+
            <div className="absolute top-6 right-6 z-10">
                 <Button 
                     onClick={() => {
@@ -510,20 +559,7 @@ export default function FamilyTreePage() {
                     <span className="hidden md:inline font-medium">Menu</span>
                 </Button>
            </div>
-            
-
-           <div className="absolute bottom-6 right-6 z-10 flex gap-2">
-                <Button 
-                    onClick={() => {
-                        setNodes(nds => performAutoLayout(nds, edges));
-                    }}
-                    className="shadow-lg h-12 w-12 rounded-full p-0"
-                    variant="outline"
-                    title="Auto Layout"
-                >
-                    <Sparkles className="w-5 h-5" />
-                </Button>
-           </div>
+        </>
         </>
       )}
 

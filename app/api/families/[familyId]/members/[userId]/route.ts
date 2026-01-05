@@ -20,9 +20,22 @@ export async function PUT(
         // Check permission
         const members = await storage.getMembers(familyId);
         const currentUserMember = members.find(m => m.userId === currentUserId);
+        const targetMember = members.find(m => m.userId === targetUserId);
 
-        if (currentUserMember?.role !== 'CREATOR') {
-            return NextResponse.json({ error: 'Only the creator can change roles' }, { status: 403 });
+        if (!currentUserMember || !targetMember) {
+            return NextResponse.json({ error: 'Member not found' }, { status: 404 });
+        }
+
+        const myRole = currentUserMember.role;
+        const targetRole = targetMember.role;
+
+        // Validating permissions
+        if (myRole !== 'CREATOR' && myRole !== 'ADMIN') {
+            return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+        }
+
+        if (targetRole === 'CREATOR') {
+            return NextResponse.json({ error: 'Cannot modify Creator' }, { status: 403 });
         }
 
         // Update role
@@ -71,8 +84,8 @@ export async function DELETE(
         if (requesterRole === 'CREATOR') {
             canRemove = true; // Creator can remove anyone
         } else if (requesterRole === 'ADMIN') {
-            // Admin can remove Members
-            if (targetRole === 'MEMBER') {
+            // Admin can remove anyone EXCEPT Creator
+            if (targetRole !== 'CREATOR') {
                 canRemove = true;
             }
         }

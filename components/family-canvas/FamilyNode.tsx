@@ -73,10 +73,10 @@ export const FamilyNode = memo(({ id, data, selected }: FamilyNodeProps) => {
                      <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider">{familySurname}</div>
                      <div className="text-lg font-bold leading-tight">{primary.name}</div>
                      <div className="text-xs text-muted-foreground mt-0.5">
-                         {primary.dateOfBirth || '?'} - {primary.alive ? (primary.dateOfBirth ? 'Present' : '') : (primary.dateOfDeath || 'Deceased')}
+                         {primary.dateOfBirth || '?'} - {(primary.alive ?? true) ? (primary.dateOfBirth ? 'Present' : '') : (primary.dateOfDeath || 'Deceased')}
                      </div>
                 </div>
-                {!primary.alive && <Badge variant="secondary" className="text-[10px] px-1 h-5">Deceased</Badge>}
+                {!(primary.alive ?? true) && <Badge variant="secondary" className="text-[10px] px-1 h-5">Deceased</Badge>}
             </div>
 
             {/* Spouse Section */}
@@ -87,10 +87,10 @@ export const FamilyNode = memo(({ id, data, selected }: FamilyNodeProps) => {
                         <div>
                              <div className="text-base font-semibold text-foreground/90">{spouse.name}</div>
                              <div className="text-xs text-muted-foreground mt-0.5">
-                                 {spouse.dateOfBirth || '?'} - {spouse.alive ? (spouse.dateOfBirth ? 'Present' : '') : (spouse.dateOfDeath || 'Deceased')}
+                                 {spouse.dateOfBirth || '?'} - {(spouse.alive ?? true) ? (spouse.dateOfBirth ? 'Present' : '') : (spouse.dateOfDeath || 'Deceased')}
                              </div>
                         </div>
-                         {!spouse.alive && <Badge variant="secondary" className="text-[10px] px-1 h-5">Deceased</Badge>}
+                         {!(spouse.alive ?? true) && <Badge variant="secondary" className="text-[10px] px-1 h-5">Deceased</Badge>}
                     </div>
                 </>
             )}

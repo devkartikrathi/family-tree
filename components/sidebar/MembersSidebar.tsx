@@ -120,8 +120,8 @@ export function MembersSidebar({
                                         </div>
                                     </div>
 
-                                    {/* Action Menu (Creator can remove/change anyone, Admin can remove members) */}
-                                    {((isCreator && member.userId !== currentUserId) || (isAdmin && member.role === 'MEMBER')) && (
+                                    {/* Action Menu (Creator can manage all, Admin can manage non-creators) */}
+                                    {member.userId !== currentUserId && (isCreator || (isAdmin && member.role !== 'CREATOR')) && (
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
                                                 <Button 
@@ -133,19 +133,15 @@ export function MembersSidebar({
                                                 </Button>
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent align="end" className="w-40">
-                                                {isCreator && (
-                                                    <>
-                                                        <DropdownMenuItem onClick={() => onUpdateRole(member.userId, 'ADMIN')}>
-                                                            <ShieldCheckIcon className="w-4 h-4 mr-2" />
-                                                            Make Admin
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem onClick={() => onUpdateRole(member.userId, 'MEMBER')}>
-                                                            <UserIcon className="w-4 h-4 mr-2" />
-                                                            Make Member
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuSeparator />
-                                                    </>
-                                                )}
+                                                <DropdownMenuItem onClick={() => onUpdateRole(member.userId, 'ADMIN')}>
+                                                    <ShieldCheckIcon className="w-4 h-4 mr-2" />
+                                                    Make Admin
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => onUpdateRole(member.userId, 'MEMBER')}>
+                                                    <UserIcon className="w-4 h-4 mr-2" />
+                                                    Make Member
+                                                </DropdownMenuItem>
+                                                <DropdownMenuSeparator />
                                                 
                                                 <DropdownMenuItem 
                                                     onClick={() => onRemoveMember(member.userId)}
