@@ -23,7 +23,6 @@ interface FamilyMapProps {
 interface PersonLocation {
     id: string;
     name: string;
-    city?: string;
     state?: string;
     pincode?: string;
     latitude: number;
@@ -44,39 +43,26 @@ export default function FamilyMap({ nodes }: FamilyMapProps) {
 
     useEffect(() => {
         const locations: PersonLocation[] = [];
-        nodes.forEach(node => {
-            const data = node.data;
-
-            // Primary
-            const p = data.primary;
-            if (p && p.name && (p.alive !== false) && p.latitude && p.longitude) {
-                 locations.push({
-                     id: node.id + '-primary',
-                     name: p.name,
-                     city: p.city,
-                     state: p.state,
-                     pincode: p.pincode,
-                     latitude: Number(p.latitude),
-                     longitude: Number(p.longitude),
-                     relation: 'Primary'
-                 });
-            }
-
-            // Spouse
-            const s = data.spouse;
-            if (s && s.name && (s.alive !== false) && s.latitude && s.longitude) {
+        
+        const processPerson = (nodeId: string, person: any, relation: 'Primary' | 'Spouse') => {
+            if (person && person.name && (person.alive !== false) && person.latitude && person.longitude) {
                 locations.push({
-                    id: node.id + '-spouse',
-                    name: s.name || "Spouse",
-                    city: s.city,
-                    state: s.state,
-                    pincode: s.pincode,
-                    latitude: Number(s.latitude),
-                    longitude: Number(s.longitude),
-                    relation: 'Spouse'
+                    id: `${nodeId}-${relation.toLowerCase()}`,
+                    name: person.name || (relation === 'Spouse' ? "Spouse" : "Unknown"),
+                    state: person.state,
+                    pincode: person.pincode,
+                    latitude: Number(person.latitude),
+                    longitude: Number(person.longitude),
+                    relation
                 });
             }
+        };
+
+        nodes.forEach(node => {
+            processPerson(node.id, node.data.primary, 'Primary');
+            processPerson(node.id, node.data.spouse, 'Spouse');
         });
+
         setPeople(locations);
     }, [nodes]);
 
@@ -110,7 +96,7 @@ export default function FamilyMap({ nodes }: FamilyMapProps) {
                                 <strong className="block text-base">{person.name}</strong>
                                 <span className="text-xs text-muted-foreground bg-primary/10 px-1 rounded">{person.relation}</span>
                                 <div className="mt-2 space-y-1">
-                                    {person.city && <div>📍 {person.city}, {person.state}</div>}
+                                    {person.state && <div>📍 {person.state}</div>}
                                     {person.pincode && <div>📮 {person.pincode}</div>}
                                 </div>
                             </div>

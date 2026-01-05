@@ -9,7 +9,6 @@ export const PersonMetadataSchema = z.object({
   occupation: z.string().optional(),
   birthLocation: z.string().optional(),
   deathLocation: z.string().optional(),
-  city: z.string().optional(),
   state: z.string().optional(),
   pincode: z.string().optional(),
   latitude: z.union([z.string(), z.number()]).optional(),

@@ -10,7 +10,8 @@ import { FamilyNodeData } from "@/lib/types";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useEffect } from "react";
+
+import { ExternalLink } from "lucide-react";
 
 const INDIAN_STATES = [
     "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana",
@@ -29,7 +30,6 @@ const personSchema = z.object({
   occupation: z.string().optional(),
   alive: z.boolean(),
   notes: z.string().optional(),
-  city: z.string().optional(),
   state: z.string().optional(),
   pincode: z.string().optional(),
   latitude: z.union([z.string(), z.number()]).optional(),
@@ -82,7 +82,6 @@ export function NodeEditor({ initialData, onSave, onCancel }: NodeEditorProps) {
             occupation: initialData?.primary?.occupation || "",
             alive: initialData?.primary?.alive ?? true,
             notes: initialData?.primary?.notes || "",
-            city: initialData?.primary?.city || "",
             state: initialData?.primary?.state || "",
             pincode: initialData?.primary?.pincode || "",
             latitude: initialData?.primary?.latitude || "",
@@ -189,22 +188,20 @@ export function NodeEditor({ initialData, onSave, onCancel }: NodeEditorProps) {
                                 )}
                             />
                             
-                            {/* Location Section */}
+
                             <div className="p-3 bg-secondary/20 rounded-md space-y-3">
-                                <h5 className="text-xs font-medium text-muted-foreground uppercase">Current Location (for Map)</h5>
+                                <div className="flex items-center justify-between">
+                                    <h5 className="text-xs font-medium text-muted-foreground uppercase">Current Location (for Map)</h5>
+                                    <a 
+                                        href="https://dac.indiapost.gov.in/mydigipin/home" 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="text-[10px] flex items-center gap-1 text-primary hover:underline"
+                                    >
+                                        Find via Digipin <ExternalLink className="h-3 w-3" />
+                                    </a>
+                                </div>
                                 <div className="grid grid-cols-2 gap-3">
-                                    <FormField
-                                        control={form.control}
-                                        name="primary.city"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>City</FormLabel>
-                                                <FormControl>
-                                                    <Input placeholder="e.g. Mumbai" {...field} />
-                                                </FormControl>
-                                            </FormItem>
-                                        )}
-                                    />
                                      <FormField
                                         control={form.control}
                                         name="primary.state"
@@ -228,8 +225,6 @@ export function NodeEditor({ initialData, onSave, onCancel }: NodeEditorProps) {
                                             </FormItem>
                                         )}
                                     />
-                                </div>
-                                <div className="grid grid-cols-2 gap-3">
                                     <FormField
                                         control={form.control}
                                         name="primary.pincode"
@@ -251,7 +246,7 @@ export function NodeEditor({ initialData, onSave, onCancel }: NodeEditorProps) {
                                         name="primary.latitude"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Latitude (Edit if needed)</FormLabel>
+                                                <FormLabel>Latitude</FormLabel>
                                                 <FormControl>
                                                     <Input {...field} value={field.value || ''} onChange={e => field.onChange(e.target.value)} />
                                                 </FormControl>
@@ -263,7 +258,7 @@ export function NodeEditor({ initialData, onSave, onCancel }: NodeEditorProps) {
                                         name="primary.longitude"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Longitude (Edit if needed)</FormLabel>
+                                                <FormLabel>Longitude</FormLabel>
                                                 <FormControl>
                                                     <Input {...field} value={field.value || ''} onChange={e => field.onChange(e.target.value)} />
                                                 </FormControl>

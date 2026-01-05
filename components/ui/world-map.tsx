@@ -2,7 +2,8 @@
 
 import { useRef } from "react";
 import { motion } from "motion/react";
-import DottedMap from "dotted-map";
+// @ts-ignore
+const DottedMap = require("dotted-map").default;
 
 import { useTheme } from "next-themes";
 
