@@ -13,17 +13,12 @@ export function CTASection() {
           Start your legacy today.
         </h2>
         <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
-          Create, collaborate, and preserve your family history with the tools built for the future. No credit card required.
+          Create, collaborate, and preserve your family history with the tools built for the future. Open source and free forever.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/tree">
-                <Button size="lg" className="h-12 px-8 rounded-full bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-black dark:hover:bg-slate-200">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto">
+            <Link href="/tree" className="w-full sm:w-auto">
+                <Button size="lg" className="h-12 px-8 rounded-lg bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-black dark:hover:bg-slate-200 w-full sm:w-auto">
                     Get Started for Free
-                </Button>
-            </Link>
-            <Link href="/contact">
-                <Button variant="outline" size="lg" className="h-12 px-8 rounded-full border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800">
-                    Contact Sales
                 </Button>
             </Link>
         </div>

@@ -13,7 +13,6 @@ export default function LandingPage() {
         <div className="flex justify-center gap-6 mb-4">
             <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
             <a href="#" className="hover:text-foreground transition-colors">Terms</a>
-            <a href="#" className="hover:text-foreground transition-colors">GitHub</a>
         </div>
         © {new Date().getFullYear()} Family Tree. All rights reserved.
       </footer>

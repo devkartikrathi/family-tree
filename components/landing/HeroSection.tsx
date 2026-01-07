@@ -13,7 +13,7 @@ export function HeroSection() {
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
         
         {/* Left Column: Content */}
-        <div className="flex flex-col gap-6 text-left">
+        <div className="flex flex-col gap-6 text-center lg:text-left items-center lg:items-start">
             <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -36,7 +36,7 @@ export function HeroSection() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-lg text-muted-foreground max-w-lg leading-relaxed"
+                className="text-lg text-muted-foreground max-w-lg leading-relaxed mx-auto lg:mx-0"
             >
                 A powerful, interactive node-based system to visualize your ancestry. 
                 Collaborate in real-time, secure your data, and pass down your history with clarity.
@@ -46,15 +46,15 @@ export function HeroSection() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="flex flex-col sm:flex-row gap-4 mt-2"
+                className="flex flex-col sm:flex-row gap-4 mt-2 w-full sm:w-auto"
             >
-                <Link href="/tree">
-                    <Button size="lg" className="h-12 px-8 text-base rounded-lg shadow-sm">
+                <Link href="/tree" className="w-full sm:w-auto">
+                    <Button size="lg" className="h-12 px-8 text-base rounded-lg shadow-sm w-full sm:w-auto">
                         Start Building Free <ArrowRight className="ml-2 w-4 h-4" />
                     </Button>
                 </Link>
-                <Link href="#features">
-                    <Button variant="ghost" size="lg" className="h-12 px-8 text-base text-muted-foreground hover:bg-muted rounded-lg">
+                <Link href="#features" className="w-full sm:w-auto">
+                    <Button variant="ghost" size="lg" className="h-12 px-8 text-base text-muted-foreground hover:bg-muted rounded-lg w-full sm:w-auto">
                         View Features
                     </Button>
                 </Link>
@@ -64,10 +64,10 @@ export function HeroSection() {
                  initial={{ opacity: 0 }}
                  animate={{ opacity: 1 }}
                  transition={{ duration: 0.5, delay: 0.4 }}
-                 className="flex items-center gap-6 mt-4 text-sm text-muted-foreground font-medium"
+                 className="flex items-center justify-center lg:justify-start gap-6 mt-4 text-sm text-muted-foreground font-medium w-full"
             >
-                <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500"/> No credit card required</div>
-                <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500"/> 14-day free trial</div>
+                <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500"/> Always Free</div>
+                <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500"/> Open Source</div>
             </motion.div>
         </div>
 
