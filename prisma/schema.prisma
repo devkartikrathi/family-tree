@@ -1,3 +1,14 @@
+// Legacy — collaborative family archive
+//
+// Data model notes
+// ----------------
+// A family tree is a bipartite-ish graph of three entities:
+//   Person       — one human being, one row. Always.
+//   Union        — a marriage/partnership between two (or more) people.
+//   ParentChild  — a directed parent → child link, optionally attributed to a Union.
+//
+// Everything the UI draws (couples, sibling groups, generations) is DERIVED from
+// these three tables. There is exactly one source of truth for every relationship.
 
 generator client {
   provider = "prisma-client-js"
@@ -8,91 +19,294 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ---------------------------------------------------------------------------
+// Accounts & access
+// ---------------------------------------------------------------------------
 
 model User {
-  id        String   @id
+  id        String   @id // Clerk user id
   email     String
   name      String?
   image     String?
   createdAt DateTime @default(now())
-  families  Family[] @relation("OwnedFamilies")
-  memberships FamilyMember[]
-  
+  updatedAt DateTime @updatedAt
+
+  memberships    Membership[]
+  invitesCreated Invite[]     @relation("InviteCreator")
+  presence       Presence[]
+  claimedPersons Person[]     @relation("PersonClaim")
+
   @@map("users")
 }
 
-model FamilyMember {
-  id        String   @id @default(uuid())
-  userId    String
-  familyId  String
-  joinedAt  DateTime @default(now())
-  role      Role     @default(MEMBER)
-  
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  family    Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, familyId])
-  @@map("family_members")
-}
-
+/// CREATOR — owns the tree; can delete it and transfer ownership.
+/// ADMIN   — everything except deleting/transferring the tree.
+/// EDITOR  — add and edit people and relationships.
+/// VIEWER  — read only.
 enum Role {
   CREATOR
   ADMIN
-  MEMBER
+  EDITOR
+  VIEWER
 }
 
-model Family {
-  id        String   @id @default(uuid())
-  name      String
-  createdAt DateTime @default(now())
-  nodes     FamilyNode[]
-  edges     FamilyEdge[]
-  
-  userId    String?
-  user      User?    @relation("OwnedFamilies", fields: [userId], references: [id])
-  members   FamilyMember[]
-  
-  @@map("families")
+model Membership {
+  id       String   @id @default(uuid())
+  userId   String
+  treeId   String
+  role     Role     @default(VIEWER)
+  joinedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tree Tree @relation(fields: [treeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, treeId])
+  @@index([treeId])
+  @@map("memberships")
 }
 
-model FamilyNode {
-  id        String   @id @default(uuid())
-  familyId  String
-  family    Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
-  
-  // Storing the complex object as JSONB
-  // This maps to our FamilyNodeData type
-  data      Json
-  
-  // React Flow specific
-  positionX Float
-  positionY Float
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  // Edges where this node is source or target
-  outgoingEdges FamilyEdge[] @relation("SourceNode")
-  incomingEdges FamilyEdge[] @relation("TargetNode")
+model Invite {
+  id          String    @id @default(uuid())
+  treeId      String
+  code        String    @unique
+  role        Role      @default(VIEWER)
+  note        String?
+  maxUses     Int?
+  useCount    Int       @default(0)
+  expiresAt   DateTime?
+  revokedAt   DateTime?
+  createdById String
+  createdAt   DateTime  @default(now())
 
-  @@map("family_nodes")
+  tree      Tree @relation(fields: [treeId], references: [id], onDelete: Cascade)
+  createdBy User @relation("InviteCreator", fields: [createdById], references: [id], onDelete: Cascade)
+
+  @@index([treeId])
+  @@map("invites")
 }
 
-model FamilyEdge {
-  id        String   @id @default(uuid())
-  familyId  String
-  family    Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
-  
-  source    String
-  target    String
-  
-  sourceNode FamilyNode @relation("SourceNode", fields: [source], references: [id], onDelete: Cascade)
-  targetNode FamilyNode @relation("TargetNode", fields: [target], references: [id], onDelete: Cascade)
-  
-  // "PARENT_OF" usually
-  relationshipType String
-  
+// ---------------------------------------------------------------------------
+// The tree
+// ---------------------------------------------------------------------------
+
+enum LayoutMode {
+  AUTO
+  FREEFORM
+}
+
+model Tree {
+  id          String     @id @default(uuid())
+  name        String
+  description String?
+  accent      String?    @default("ochre")
+  layoutMode  LayoutMode @default(AUTO)
+
+  /// When true, birth dates / places / notes of living people are withheld
+  /// from VIEWERs. Editors and above always see everything.
+  protectLiving Boolean @default(false)
+
+  createdById String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  members  Membership[]
+  persons  Person[]
+  unions   Union[]
+  links    ParentChild[]
+  invites  Invite[]
+  events   TreeEvent[]
+  presence Presence[]
+
+  @@index([createdById])
+  @@map("trees")
+}
+
+enum Sex {
+  MALE
+  FEMALE
+  OTHER
+  UNKNOWN
+}
+
+model Person {
+  id     String @id @default(uuid())
+  treeId String
+  tree   Tree   @relation(fields: [treeId], references: [id], onDelete: Cascade)
+
+  givenName  String
+  familyName String?
+  nickname   String?
+  maidenName String?
+  sex        Sex     @default(UNKNOWN)
+
+  /// Partial ISO dates are allowed and expected: "1948", "1948-03", "1948-03-12".
+  birthDate  String?
+  birthPlace String?
+  birthLat   Float?
+  birthLng   Float?
+
+  isLiving   Boolean @default(true)
+  deathDate  String?
+  deathPlace String?
+  deathLat   Float?
+  deathLng   Float?
+
+  residencePlace String?
+  residenceLat   Float?
+  residenceLng   Float?
+
+  occupation String?
+  bio        String?
+  photoUrl   String?
+
+  /// Freeform canvas coordinates. Only honoured when the tree is in FREEFORM mode.
+  posX Float?
+  posY Float?
+
+  /// The member who says "this is me".
+  claimedByUserId String?
+  claimedBy       User?   @relation("PersonClaim", fields: [claimedByUserId], references: [id], onDelete: SetNull)
+
+  createdById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  unions      UnionPartner[]
+  childLinks  ParentChild[]  @relation("ChildLinks")
+  parentLinks ParentChild[]  @relation("ParentLinks")
+
+  @@unique([treeId, claimedByUserId])
+  @@index([treeId])
+  @@index([treeId, familyName])
+  @@map("persons")
+}
+
+enum UnionKind {
+  MARRIAGE
+  PARTNERSHIP
+  OTHER
+}
+
+enum UnionStatus {
+  CURRENT
+  SEPARATED
+  DIVORCED
+  WIDOWED
+  UNKNOWN
+}
+
+model Union {
+  id     String @id @default(uuid())
+  treeId String
+  tree   Tree   @relation(fields: [treeId], references: [id], onDelete: Cascade)
+
+  kind      UnionKind   @default(MARRIAGE)
+  status    UnionStatus @default(CURRENT)
+  startDate String?
+  endDate   String?
+  place     String?
+  note      String?
+
+  createdById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  partners UnionPartner[]
+  children ParentChild[]
+
+  @@index([treeId])
+  @@map("unions")
+}
+
+model UnionPartner {
+  id       String @id @default(uuid())
+  unionId  String
+  personId String
+
+  union  Union  @relation(fields: [unionId], references: [id], onDelete: Cascade)
+  person Person @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@unique([unionId, personId])
+  @@index([personId])
+  @@map("union_partners")
+}
+
+enum ParentKind {
+  BIOLOGICAL
+  ADOPTED
+  STEP
+  FOSTER
+  GUARDIAN
+}
+
+model ParentChild {
+  id     String @id @default(uuid())
+  treeId String
+  tree   Tree   @relation(fields: [treeId], references: [id], onDelete: Cascade)
+
+  childId  String
+  parentId String
+  /// Which union produced this child, when known. Lets the canvas hang a whole
+  /// sibling group off one couple instead of drawing two parallel edges.
+  unionId  String?
+  kind     ParentKind @default(BIOLOGICAL)
+
+  createdById String?
+  createdAt   DateTime @default(now())
+
+  child  Person @relation("ChildLinks", fields: [childId], references: [id], onDelete: Cascade)
+  parent Person @relation("ParentLinks", fields: [parentId], references: [id], onDelete: Cascade)
+  union  Union? @relation(fields: [unionId], references: [id], onDelete: SetNull)
+
+  @@unique([childId, parentId])
+  @@index([treeId])
+  @@index([parentId])
+  @@index([unionId])
+  @@map("parent_child")
+}
+
+// ---------------------------------------------------------------------------
+// Collaboration: audit trail, live sync, presence
+// ---------------------------------------------------------------------------
+
+/// Append-only. Serves three jobs at once: the human-readable activity feed,
+/// the audit trail admins can inspect, and the cursor-based change stream that
+/// keeps everyone's canvas in sync.
+model TreeEvent {
+  id     Int    @id @default(autoincrement())
+  treeId String
+  tree   Tree   @relation(fields: [treeId], references: [id], onDelete: Cascade)
+
+  actorId   String?
+  actorName String?
+  action    String // "person.created", "union.deleted", "member.role_changed", …
+  subject   String // human-readable subject, e.g. "Amrita Rathi"
+  payload   Json?
   createdAt DateTime @default(now())
 
-  @@map("family_edges")
+  @@index([treeId, id])
+  @@map("tree_events")
+}
+
+model Presence {
+  id         String   @id @default(uuid())
+  treeId     String
+  userId     String
+  lastSeenAt DateTime @default(now())
+
+  tree Tree @relation(fields: [treeId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([treeId, userId])
+  @@index([treeId, lastSeenAt])
+  @@map("presence")
+}
+
+/// Cache for the OpenStreetMap geocoder so we stay well inside its usage policy.
+model GeocodeCache {
+  query     String   @id
+  result    Json
+  createdAt DateTime @default(now())
+
+  @@map("geocode_cache")
 }

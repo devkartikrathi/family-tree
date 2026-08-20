@@ -1,10 +1,12 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { logger } from "@/lib/logger";
+import { useEffect } from 'react';
+import Link from 'next/link';
+import { RefreshCw } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Wordmark } from '@/components/brand/logo';
 
-export default function Error({
+export default function ErrorBoundary({
   error,
   reset,
 }: {
@@ -12,22 +14,35 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    logger.error(error);
+    console.error('Unhandled error in the app shell', error);
   }, [error]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground p-4">
-      <h2 className="text-3xl font-bold mb-4">Something went wrong!</h2>
-      <p className="text-muted-foreground mb-8 max-w-md text-center">
-        An unexpected error occurred. We&apos;ve been notified and are looking into it.
-      </p>
-      <div className="flex gap-4">
-        <Button onClick={() => reset()} variant="default" className="rounded-full">
-          Try again
-        </Button>
-        <Button onClick={() => (window.location.href = "/")} variant="outline" className="rounded-full">
-          Go Home
-        </Button>
+    <div className="relative isolate grid min-h-[100dvh] place-items-center px-5">
+      <div className="w-full max-w-md text-center">
+        <Wordmark className="justify-center" />
+
+        <h1 className="font-display mt-10 text-2xl font-semibold tracking-tight">
+          Something broke on our side
+        </h1>
+        <p className="mt-3 leading-relaxed text-muted-foreground">
+          Nothing you had saved is affected — every change is written the moment you make it. Try
+          again, and if it keeps happening, let us know.
+        </p>
+
+        {error.digest && (
+          <p className="mt-4 font-mono text-xs text-muted-foreground">Reference {error.digest}</p>
+        )}
+
+        <div className="mt-8 flex flex-col justify-center gap-2 sm:flex-row">
+          <Button onClick={reset} className="gap-2">
+            <RefreshCw className="size-4" />
+            Try again
+          </Button>
+          <Button asChild variant="ghost">
+            <Link href="/tree">Back to your trees</Link>
+          </Button>
+        </div>
       </div>
     </div>
   );

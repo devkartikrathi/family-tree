@@ -1,8 +1,11 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { logger } from "@/lib/logger";
+import { useEffect } from 'react';
 
+/**
+ * The last line of defence: the root layout itself failed, so this renders its
+ * own <html> and cannot rely on any provider, font or stylesheet.
+ */
 export default function GlobalError({
   error,
   reset,
@@ -11,20 +14,49 @@ export default function GlobalError({
   reset: () => void;
 }) {
   useEffect(() => {
-    logger.error(error);
+    console.error('Fatal error at the root layout', error);
   }, [error]);
 
   return (
-    <html>
-      <body>
-        <div className="flex flex-col items-center justify-center min-h-screen bg-white text-slate-900 p-4">
-          <h2 className="text-3xl font-bold mb-4">Critical Error</h2>
-          <p className="mb-8">A critical error occurred. Please try refreshing the page.</p>
+    <html lang="en">
+      <body
+        style={{
+          margin: 0,
+          minHeight: '100vh',
+          display: 'grid',
+          placeItems: 'center',
+          background: '#fbf8f3',
+          color: '#1c1917',
+          fontFamily: 'ui-sans-serif, system-ui, sans-serif',
+          padding: '1.5rem',
+        }}
+      >
+        <div style={{ maxWidth: '28rem', textAlign: 'center' }}>
+          <h1 style={{ fontFamily: 'ui-serif, Georgia, serif', fontSize: '1.5rem', margin: 0 }}>
+            Legacy could not start
+          </h1>
+          <p style={{ marginTop: '0.75rem', lineHeight: 1.6, color: '#6b6259' }}>
+            Your family data is untouched. Reloading usually clears this.
+          </p>
+          {error.digest && (
+            <p style={{ marginTop: '1rem', fontFamily: 'ui-monospace, monospace', fontSize: '0.75rem', color: '#6b6259' }}>
+              Reference {error.digest}
+            </p>
+          )}
           <button
-            onClick={() => reset()}
-            className="px-4 py-2 bg-slate-900 text-white rounded-full"
+            onClick={reset}
+            style={{
+              marginTop: '1.5rem',
+              padding: '0.6rem 1.4rem',
+              borderRadius: '0.625rem',
+              border: 'none',
+              background: '#1f1c17',
+              color: '#fbf8f3',
+              fontSize: '0.9rem',
+              cursor: 'pointer',
+            }}
           >
-            Try again
+            Reload
           </button>
         </div>
       </body>

@@ -1,0 +1,717 @@
+{
+  "takenAt": "2026-08-20T07:20:17.229Z",
+  "tables": {
+    "users": [
+      {
+        "id": "user_37Z6ScwygrTJKq6lkqtElGg3QPr",
+        "email": "kkyr2002@gmail.com",
+        "createdAt": "2025-12-30T12:37:29.777Z",
+        "image": "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18zN1o2U2FkdDJsejlzU0lpVWVjRk1Zb0wxZGsifQ",
+        "name": "KR8"
+      },
+      {
+        "id": "user_37pZdq0BQwJsxp8aBrfvxSwdwOC",
+        "email": "shrutigupta3113@gmail.com",
+        "createdAt": "2026-01-05T08:34:26.113Z",
+        "image": "https://img.clerk.com/eyJ0eXBlIjoiZGVmYXVsdCIsImlpZCI6Imluc18zN0ExdlVFaThpU2tiN2l0QUlyUWZsRUl3cUQiLCJyaWQiOiJ1c2VyXzM3cFpkcTBCUXdKc3hwOGFCcmZ2eFN3ZHdPQyIsImluaXRpYWxzIjoiU0cifQ",
+        "name": "Shruti Gupta"
+      },
+      {
+        "id": "user_37CEaHF9muo0DAt4YsrQ5R2w93F",
+        "email": "trustwithradhika@gmail.com",
+        "createdAt": "2025-12-22T10:18:37.779Z",
+        "image": null,
+        "name": null
+      },
+      {
+        "id": "user_37yQ7QT0yOxjmYhXryKitCYOmzA",
+        "email": "deepanshunegi98@gmail.com",
+        "createdAt": "2026-01-08T11:44:26.833Z",
+        "image": "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18zN3lRN0pUZW1CWURtNzcxcnVzVGJlSHhjM0MifQ",
+        "name": "deepanshu negi"
+      },
+      {
+        "id": "user_38WxcW83g9lotBfZneLDxBVrOMF",
+        "email": "farisjr558@gmail.com",
+        "createdAt": "2026-01-20T17:13:34.341Z",
+        "image": "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18zOFd4Y1h2YnJ0TWlKVHVzSExwWjhzOXJ5VjcifQ",
+        "name": "Ahmad Faris - deden"
+      },
+      {
+        "id": "user_37A3kqeSY4fHJ1p7eadeQpOEEcB",
+        "email": "kartikrathi0808@gmail.com",
+        "createdAt": "2025-12-21T15:53:25.754Z",
+        "image": "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18zN0Eza2xQM3g0OHpHRnIyaVhqUHo0N3NUYkYifQ",
+        "name": "Kartik Rathi"
+      },
+      {
+        "id": "user_37Z9f6KC7ddTkzXRYNIAXyYT81x",
+        "email": "vimalrathi1973@gmail.com",
+        "createdAt": "2025-12-30T13:03:49.200Z",
+        "image": "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18zN1o5ZkNGSUwwZHE0M09lMEpqU3FlcWlBNW8ifQ",
+        "name": "Vimal Rathi"
+      }
+    ],
+    "families": [
+      {
+        "id": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "name": "Rathi Family",
+        "createdAt": "2025-12-20T15:13:54.663Z",
+        "userId": "user_37A3kqeSY4fHJ1p7eadeQpOEEcB"
+      },
+      {
+        "id": "8b4e9521-f9b6-4f5c-b97c-7257d5605140",
+        "name": "My New Family",
+        "createdAt": "2026-01-05T08:34:33.957Z",
+        "userId": "user_37pZdq0BQwJsxp8aBrfvxSwdwOC"
+      },
+      {
+        "id": "4ebc8dc5-75ab-4ca2-8abc-058469b3b24a",
+        "name": "My New Family",
+        "createdAt": "2026-01-08T11:44:38.665Z",
+        "userId": "user_37yQ7QT0yOxjmYhXryKitCYOmzA"
+      },
+      {
+        "id": "af1e3e42-5939-417c-8fe9-adc20e9cc1ee",
+        "name": "My New Family",
+        "createdAt": "2026-01-20T17:13:39.716Z",
+        "userId": "user_38WxcW83g9lotBfZneLDxBVrOMF"
+      },
+      {
+        "id": "3a27d322-d32a-425a-97bc-41106db925b5",
+        "name": "My New Family",
+        "createdAt": "2026-08-20T06:01:57.759Z",
+        "userId": "user_37A3kqeSY4fHJ1p7eadeQpOEEcB"
+      }
+    ],
+    "family_members": [
+      {
+        "id": "e68caecf-1a44-4670-aa39-75065517b0b6",
+        "userId": "user_37A3kqeSY4fHJ1p7eadeQpOEEcB",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "joinedAt": "2025-12-21T16:34:52.082Z",
+        "role": "CREATOR"
+      },
+      {
+        "id": "dc25e820-2a78-4123-aafd-b299b951adae",
+        "userId": "user_37Z9f6KC7ddTkzXRYNIAXyYT81x",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "joinedAt": "2025-12-30T13:08:22.380Z",
+        "role": "ADMIN"
+      },
+      {
+        "id": "3d599cdb-b908-4c3e-a8fe-56f549979285",
+        "userId": "user_37pZdq0BQwJsxp8aBrfvxSwdwOC",
+        "familyId": "8b4e9521-f9b6-4f5c-b97c-7257d5605140",
+        "joinedAt": "2026-01-05T08:34:33.964Z",
+        "role": "CREATOR"
+      },
+      {
+        "id": "4d3fcefa-ffaa-4614-bf53-bb97c1d54c88",
+        "userId": "user_37yQ7QT0yOxjmYhXryKitCYOmzA",
+        "familyId": "4ebc8dc5-75ab-4ca2-8abc-058469b3b24a",
+        "joinedAt": "2026-01-08T11:44:38.685Z",
+        "role": "CREATOR"
+      },
+      {
+        "id": "ee3919c7-eb4d-4b44-916f-a057755ceaf3",
+        "userId": "user_38WxcW83g9lotBfZneLDxBVrOMF",
+        "familyId": "af1e3e42-5939-417c-8fe9-adc20e9cc1ee",
+        "joinedAt": "2026-01-20T17:13:39.731Z",
+        "role": "CREATOR"
+      },
+      {
+        "id": "855ab378-ecbb-432e-bc7b-720e2b899285",
+        "userId": "user_37A3kqeSY4fHJ1p7eadeQpOEEcB",
+        "familyId": "3a27d322-d32a-425a-97bc-41106db925b5",
+        "joinedAt": "2026-08-20T06:01:57.793Z",
+        "role": "CREATOR"
+      }
+    ],
+    "family_nodes": [
+      {
+        "id": "96ebfc6b-6a51-444f-a3bf-fe821c4ce75a",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "data": {
+          "spouse": {
+            "name": "Bimla Devi",
+            "alive": false,
+            "notes": "",
+            "dateOfBirth": "",
+            "dateOfDeath": ""
+          },
+          "primary": {
+            "name": "Kunji Lal Ji",
+            "alive": true,
+            "notes": "",
+            "dateOfBirth": "",
+            "dateOfDeath": ""
+          },
+          "familySurname": "Rathi",
+          "primaryRootNodeId": "d2ae0359-6e3e-4214-bb8a-3ad3277604da"
+        },
+        "positionX": 1519.889454205402,
+        "positionY": 715.0552728972989,
+        "createdAt": "2025-12-21T12:02:03.100Z",
+        "updatedAt": "2025-12-22T10:12:49.066Z"
+      },
+      {
+        "id": "2ec1a779-3a7a-4919-bc21-e7838cc8a7d0",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "data": {
+          "primary": {
+            "city": "New Delhi",
+            "name": "Kartik Rathi",
+            "alive": true,
+            "notes": "",
+            "state": "Delhi",
+            "pincode": "110053",
+            "latitude": "28.68456033",
+            "longitude": "77.26864010",
+            "occupation": "",
+            "dateOfBirth": "2003-08-08",
+            "dateOfDeath": "",
+            "birthLocation": "",
+            "deathLocation": ""
+          },
+          "familySurname": "Rathi",
+          "primaryRootNodeId": "1c41c19f-6e0f-45aa-a911-3be41579a3b7"
+        },
+        "positionX": 535.34956826568,
+        "positionY": 1386.433621156214,
+        "createdAt": "2025-12-20T15:23:52.483Z",
+        "updatedAt": "2026-01-05T07:03:54.525Z"
+      },
+      {
+        "id": "7da3d1b3-c08a-407e-a188-a39b4f4a3ca0",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "data": {
+          "primary": {
+            "name": "Vansh Rathi",
+            "alive": true,
+            "notes": "",
+            "dateOfBirth": "2007-10-06",
+            "dateOfDeath": ""
+          },
+          "familySurname": "Rathi",
+          "primaryRootNodeId": "1c41c19f-6e0f-45aa-a911-3be41579a3b7"
+        },
+        "positionX": 524.6393637610317,
+        "positionY": 1400.809354816515,
+        "createdAt": "2025-12-20T15:30:04.374Z",
+        "updatedAt": "2025-12-21T13:15:49.840Z"
+      },
+      {
+        "id": "1c41c19f-6e0f-45aa-a911-3be41579a3b7",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "data": {
+          "spouse": {
+            "name": "Anchal Maheshwari",
+            "alive": true,
+            "notes": "",
+            "dateOfBirth": "1978-08-02",
+            "dateOfDeath": ""
+          },
+          "primary": {
+            "name": "Vimal Rathi",
+            "alive": true,
+            "notes": "",
+            "dateOfBirth": "1973-11-26",
+            "dateOfDeath": ""
+          },
+          "familySurname": "Rathi",
+          "primaryRootNodeId": "80d883a5-f0a6-4cb6-aa96-03aedf927470"
+        },
+        "positionX": 412.6835513415889,
+        "positionY": 1194.161847787126,
+        "createdAt": "2025-12-20T15:23:29.277Z",
+        "updatedAt": "2025-12-21T13:45:39.418Z"
+      },
+      {
+        "id": "80d883a5-f0a6-4cb6-aa96-03aedf927470",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "data": {
+          "spouse": {
+            "name": "Shakuntala Devi",
+            "alive": true,
+            "notes": "",
+            "dateOfBirth": "",
+            "dateOfDeath": ""
+          },
+          "primary": {
+            "name": "Radheyshyam Rathi",
+            "alive": true,
+            "notes": "",
+            "dateOfBirth": "1946-07-02",
+            "dateOfDeath": ""
+          },
+          "familySurname": "Rathi",
+          "primaryRootNodeId": "d2ae0359-6e3e-4214-bb8a-3ad3277604da"
+        },
+        "positionX": -85.33333333333329,
+        "positionY": 441.3333333333333,
+        "createdAt": "2025-12-20T15:32:27.551Z",
+        "updatedAt": "2025-12-21T12:00:43.148Z"
+      },
+      {
+        "id": "dce3389c-564e-4736-8ab2-54c7780c844b",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "data": {
+          "primary": {
+            "name": "Rajesh Rathi",
+            "alive": true,
+            "notes": "",
+            "dateOfBirth": "",
+            "dateOfDeath": ""
+          },
+          "familySurname": "Rathi",
+          "primaryRootNodeId": "96ebfc6b-6a51-444f-a3bf-fe821c4ce75a"
+        },
+        "positionX": 1200,
+        "positionY": 1000,
+        "createdAt": "2025-12-21T12:11:26.727Z",
+        "updatedAt": "2025-12-21T12:11:26.727Z"
+      },
+      {
+        "id": "b6de6e9d-1a8b-474c-b25b-92f160ff6cea",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "data": {
+          "primary": {
+            "name": "Akshay",
+            "alive": true,
+            "notes": "",
+            "dateOfBirth": "",
+            "dateOfDeath": ""
+          },
+          "familySurname": "Rathi",
+          "primaryRootNodeId": "48d97d57-048c-451b-877b-14468029ff1f"
+        },
+        "positionX": -98.01367058104793,
+        "positionY": 925.2369049154415,
+        "createdAt": "2025-12-20T17:09:44.770Z",
+        "updatedAt": "2025-12-21T11:37:02.228Z"
+      },
+      {
+        "id": "6732af97-fab8-464e-b4ea-d18d8d1ef878",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "data": {
+          "spouse": {
+            "name": "Kesar Devi",
+            "alive": false,
+            "notes": "",
+            "dateOfBirth": "",
+            "dateOfDeath": ""
+          },
+          "primary": {
+            "name": "Arjun Das Ji",
+            "alive": false,
+            "notes": "",
+            "dateOfBirth": "",
+            "dateOfDeath": ""
+          },
+          "familySurname": "Rathi"
+        },
+        "positionX": 822.0600858369136,
+        "positionY": -448.8412017167373,
+        "createdAt": "2025-12-21T11:41:54.306Z",
+        "updatedAt": "2025-12-22T10:14:32.731Z"
+      },
+      {
+        "id": "8bf7fecf-407a-451d-af62-56797033472a",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "data": {
+          "primary": {
+            "name": "Manish Rathi",
+            "alive": true,
+            "notes": "",
+            "dateOfBirth": "",
+            "dateOfDeath": ""
+          },
+          "familySurname": "Rathi",
+          "primaryRootNodeId": "96ebfc6b-6a51-444f-a3bf-fe821c4ce75a"
+        },
+        "positionX": 1375,
+        "positionY": 1000,
+        "createdAt": "2025-12-21T12:11:39.679Z",
+        "updatedAt": "2025-12-21T12:11:39.679Z"
+      },
+      {
+        "id": "48d97d57-048c-451b-877b-14468029ff1f",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "data": {
+          "spouse": {
+            "name": "Rita Rathi",
+            "alive": true,
+            "notes": "",
+            "dateOfBirth": "",
+            "dateOfDeath": ""
+          },
+          "primary": {
+            "name": "Kamal Rathi",
+            "alive": true,
+            "notes": "",
+            "dateOfBirth": "1970-07-18",
+            "dateOfDeath": ""
+          },
+          "familySurname": "Rathi",
+          "primaryRootNodeId": "80d883a5-f0a6-4cb6-aa96-03aedf927470"
+        },
+        "positionX": 735.2539506688145,
+        "positionY": 382.3352867522218,
+        "createdAt": "2025-12-20T16:29:13.068Z",
+        "updatedAt": "2025-12-21T12:12:18.586Z"
+      },
+      {
+        "id": "5b2ae925-0903-458a-85b4-d9a3296efcc0",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "data": {
+          "primary": {
+            "name": "Deepak Rathi",
+            "alive": true,
+            "notes": "",
+            "dateOfBirth": "",
+            "dateOfDeath": ""
+          },
+          "familySurname": "Rathi",
+          "primaryRootNodeId": "96ebfc6b-6a51-444f-a3bf-fe821c4ce75a"
+        },
+        "positionX": 855.168599318017,
+        "positionY": 1130.929818527404,
+        "createdAt": "2025-12-21T12:11:08.490Z",
+        "updatedAt": "2025-12-21T16:01:47.230Z"
+      },
+      {
+        "id": "d2ae0359-6e3e-4214-bb8a-3ad3277604da",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "data": {
+          "primary": {
+            "name": "Manohar Lal Ji",
+            "alive": false,
+            "notes": "",
+            "dateOfBirth": "",
+            "dateOfDeath": ""
+          },
+          "familySurname": "Rathi",
+          "primaryRootNodeId": "6732af97-fab8-464e-b4ea-d18d8d1ef878"
+        },
+        "positionX": 1025,
+        "positionY": 350,
+        "createdAt": "2025-12-21T11:59:55.718Z",
+        "updatedAt": "2025-12-22T10:09:00.746Z"
+      },
+      {
+        "id": "5e1a2796-f2df-4c53-9615-671f83f74499",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "data": {
+          "primary": {
+            "name": "Nand Kishor Ji",
+            "alive": false,
+            "notes": "",
+            "dateOfBirth": "",
+            "dateOfDeath": ""
+          },
+          "familySurname": "Rathi",
+          "primaryRootNodeId": "6732af97-fab8-464e-b4ea-d18d8d1ef878"
+        },
+        "positionX": 1025,
+        "positionY": 300,
+        "createdAt": "2025-12-22T10:07:59.500Z",
+        "updatedAt": "2025-12-22T10:07:59.500Z"
+      },
+      {
+        "id": "136a5604-0c7b-4c0e-84de-b485b8b91632",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "data": {
+          "primary": {
+            "name": "Raghunath Prasad Ji",
+            "alive": false,
+            "notes": "",
+            "dateOfBirth": "",
+            "dateOfDeath": ""
+          },
+          "familySurname": "Rathi",
+          "primaryRootNodeId": "6732af97-fab8-464e-b4ea-d18d8d1ef878"
+        },
+        "positionX": 1200,
+        "positionY": 300,
+        "createdAt": "2025-12-22T10:08:47.286Z",
+        "updatedAt": "2025-12-22T10:08:47.286Z"
+      },
+      {
+        "id": "597c98a4-67bc-4b09-bcd2-cfada775c562",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "data": {
+          "primary": {
+            "name": "Ram Ratan Ji",
+            "alive": false,
+            "notes": "",
+            "dateOfBirth": "",
+            "dateOfDeath": ""
+          },
+          "familySurname": "Rathi",
+          "primaryRootNodeId": "d2ae0359-6e3e-4214-bb8a-3ad3277604da"
+        },
+        "positionX": 1200,
+        "positionY": 650,
+        "createdAt": "2025-12-22T10:12:11.520Z",
+        "updatedAt": "2025-12-22T10:12:11.520Z"
+      },
+      {
+        "id": "5bb66fb3-67d5-4ad2-8f6c-bed19b58b5d3",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "data": {
+          "primary": {
+            "name": "Ram Kishor Ji",
+            "alive": false,
+            "notes": "",
+            "dateOfBirth": "",
+            "dateOfDeath": ""
+          },
+          "familySurname": "Rathi",
+          "primaryRootNodeId": "d2ae0359-6e3e-4214-bb8a-3ad3277604da"
+        },
+        "positionX": 2248.727780744311,
+        "positionY": 887.1752579932648,
+        "createdAt": "2025-12-22T10:09:32.963Z",
+        "updatedAt": "2025-12-29T04:52:05.339Z"
+      },
+      {
+        "id": "15b9d257-dd11-4946-8c39-36de7169f0cb",
+        "familyId": "8b4e9521-f9b6-4f5c-b97c-7257d5605140",
+        "data": {
+          "spouse": {
+            "name": "Jyoti Gupta",
+            "alive": true,
+            "notes": "",
+            "occupation": "",
+            "dateOfBirth": "1980-07-01",
+            "dateOfDeath": "",
+            "birthLocation": "India",
+            "deathLocation": ""
+          },
+          "primary": {
+            "name": "Arun Gupta",
+            "alive": true,
+            "notes": "",
+            "state": "Delhi",
+            "pincode": "110018",
+            "latitude": "",
+            "longitude": "",
+            "occupation": "",
+            "dateOfBirth": "1976-06-25",
+            "dateOfDeath": "",
+            "birthLocation": "India",
+            "deathLocation": ""
+          },
+          "familySurname": "Gupta"
+        },
+        "positionX": 100,
+        "positionY": 100,
+        "createdAt": "2026-01-05T08:36:11.054Z",
+        "updatedAt": "2026-01-05T08:36:48.222Z"
+      },
+      {
+        "id": "a0cec8ab-f6fc-4707-905c-f194193edee4",
+        "familyId": "8b4e9521-f9b6-4f5c-b97c-7257d5605140",
+        "data": {
+          "primary": {
+            "name": "Shruti Gupta",
+            "alive": true,
+            "notes": "",
+            "state": "Delhi",
+            "pincode": "110018",
+            "latitude": "",
+            "longitude": "",
+            "occupation": "",
+            "dateOfBirth": "2003-11-03",
+            "dateOfDeath": "",
+            "birthLocation": "India",
+            "deathLocation": ""
+          },
+          "familySurname": "Gupta",
+          "primaryRootNodeId": "15b9d257-dd11-4946-8c39-36de7169f0cb"
+        },
+        "positionX": 147.9775280898877,
+        "positionY": 233.2584269662921,
+        "createdAt": "2026-01-05T08:37:39.539Z",
+        "updatedAt": "2026-01-05T08:37:39.539Z"
+      },
+      {
+        "id": "a5c83007-4596-44ab-a797-689aaa02e407",
+        "familyId": "8b4e9521-f9b6-4f5c-b97c-7257d5605140",
+        "data": {
+          "primary": {
+            "name": "Shreya Gupta",
+            "alive": true,
+            "notes": "",
+            "state": "Delhi",
+            "pincode": "110018",
+            "latitude": "",
+            "longitude": "",
+            "occupation": "",
+            "dateOfBirth": "2007-08-22",
+            "dateOfDeath": "",
+            "birthLocation": "India",
+            "deathLocation": ""
+          },
+          "familySurname": "Gupta",
+          "primaryRootNodeId": "15b9d257-dd11-4946-8c39-36de7169f0cb"
+        },
+        "positionX": 150,
+        "positionY": 290,
+        "createdAt": "2026-01-05T08:38:27.364Z",
+        "updatedAt": "2026-01-05T08:38:27.364Z"
+      }
+    ],
+    "family_edges": [
+      {
+        "id": "7b81d2e0-eb6f-42d5-b1f3-9c59dedd84cc",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "source": "1c41c19f-6e0f-45aa-a911-3be41579a3b7",
+        "target": "2ec1a779-3a7a-4919-bc21-e7838cc8a7d0",
+        "relationshipType": "PARENT_OF",
+        "createdAt": "2025-12-20T15:23:54.349Z"
+      },
+      {
+        "id": "30b8bf85-f7d0-4b50-9fa8-5442f5e316d6",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "source": "1c41c19f-6e0f-45aa-a911-3be41579a3b7",
+        "target": "7da3d1b3-c08a-407e-a188-a39b4f4a3ca0",
+        "relationshipType": "PARENT_OF",
+        "createdAt": "2025-12-20T15:30:05.026Z"
+      },
+      {
+        "id": "46e15215-731b-4a4a-8a7a-e33359bae056",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "source": "80d883a5-f0a6-4cb6-aa96-03aedf927470",
+        "target": "1c41c19f-6e0f-45aa-a911-3be41579a3b7",
+        "relationshipType": "PARENT_OF",
+        "createdAt": "2025-12-20T16:20:36.264Z"
+      },
+      {
+        "id": "b617c38f-2397-42b4-a209-41404270ccad",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "source": "80d883a5-f0a6-4cb6-aa96-03aedf927470",
+        "target": "48d97d57-048c-451b-877b-14468029ff1f",
+        "relationshipType": "PARENT_OF",
+        "createdAt": "2025-12-20T16:29:13.670Z"
+      },
+      {
+        "id": "0d78cbbd-f10b-441b-a32b-7ef4705a3e4d",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "source": "48d97d57-048c-451b-877b-14468029ff1f",
+        "target": "b6de6e9d-1a8b-474c-b25b-92f160ff6cea",
+        "relationshipType": "PARENT_OF",
+        "createdAt": "2025-12-20T17:09:45.365Z"
+      },
+      {
+        "id": "dabd6167-10e3-435b-8bd4-aed9f10790d4",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "source": "6732af97-fab8-464e-b4ea-d18d8d1ef878",
+        "target": "d2ae0359-6e3e-4214-bb8a-3ad3277604da",
+        "relationshipType": "PARENT_OF",
+        "createdAt": "2025-12-21T11:59:57.213Z"
+      },
+      {
+        "id": "e8f53bef-70fb-41e7-ab03-722562631d3f",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "source": "d2ae0359-6e3e-4214-bb8a-3ad3277604da",
+        "target": "80d883a5-f0a6-4cb6-aa96-03aedf927470",
+        "relationshipType": "PARENT_OF",
+        "createdAt": "2025-12-21T12:00:43.924Z"
+      },
+      {
+        "id": "fc60036d-28fb-4bab-84fa-20c9721e1c54",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "source": "d2ae0359-6e3e-4214-bb8a-3ad3277604da",
+        "target": "96ebfc6b-6a51-444f-a3bf-fe821c4ce75a",
+        "relationshipType": "PARENT_OF",
+        "createdAt": "2025-12-21T12:02:03.652Z"
+      },
+      {
+        "id": "1e314865-8131-4654-8d44-56ce1744e0de",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "source": "96ebfc6b-6a51-444f-a3bf-fe821c4ce75a",
+        "target": "5b2ae925-0903-458a-85b4-d9a3296efcc0",
+        "relationshipType": "PARENT_OF",
+        "createdAt": "2025-12-21T12:11:09.386Z"
+      },
+      {
+        "id": "20f96288-a539-4ce6-b07c-b4edb38d1729",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "source": "96ebfc6b-6a51-444f-a3bf-fe821c4ce75a",
+        "target": "dce3389c-564e-4736-8ab2-54c7780c844b",
+        "relationshipType": "PARENT_OF",
+        "createdAt": "2025-12-21T12:11:27.294Z"
+      },
+      {
+        "id": "8f6d1eb1-af19-4ca1-82db-55ddfd087d88",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "source": "96ebfc6b-6a51-444f-a3bf-fe821c4ce75a",
+        "target": "8bf7fecf-407a-451d-af62-56797033472a",
+        "relationshipType": "PARENT_OF",
+        "createdAt": "2025-12-21T12:11:40.023Z"
+      },
+      {
+        "id": "7abf42b8-1271-4908-950d-0ea5bd806526",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "source": "6732af97-fab8-464e-b4ea-d18d8d1ef878",
+        "target": "5e1a2796-f2df-4c53-9615-671f83f74499",
+        "relationshipType": "PARENT_OF",
+        "createdAt": "2025-12-22T10:08:02.349Z"
+      },
+      {
+        "id": "dd523f66-cd21-4f13-83d6-807314572f44",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "source": "6732af97-fab8-464e-b4ea-d18d8d1ef878",
+        "target": "136a5604-0c7b-4c0e-84de-b485b8b91632",
+        "relationshipType": "PARENT_OF",
+        "createdAt": "2025-12-22T10:08:48.475Z"
+      },
+      {
+        "id": "777b76bc-a55f-4ac4-bb7c-2799499f27f0",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "source": "d2ae0359-6e3e-4214-bb8a-3ad3277604da",
+        "target": "5bb66fb3-67d5-4ad2-8f6c-bed19b58b5d3",
+        "relationshipType": "PARENT_OF",
+        "createdAt": "2025-12-22T10:09:34.101Z"
+      },
+      {
+        "id": "ab9f72b2-51e0-4cfe-8aa0-52cae322958a",
+        "familyId": "a9274ad2-16f6-4b98-9101-55fa4dd3c14e",
+        "source": "d2ae0359-6e3e-4214-bb8a-3ad3277604da",
+        "target": "597c98a4-67bc-4b09-bcd2-cfada775c562",
+        "relationshipType": "PARENT_OF",
+        "createdAt": "2025-12-22T10:12:13.722Z"
+      },
+      {
+        "id": "07c9d510-33e6-49d8-8978-a01dde4a3af1",
+        "familyId": "8b4e9521-f9b6-4f5c-b97c-7257d5605140",
+        "source": "15b9d257-dd11-4946-8c39-36de7169f0cb",
+        "target": "a0cec8ab-f6fc-4707-905c-f194193edee4",
+        "relationshipType": "PARENT_OF",
+        "createdAt": "2026-01-05T08:37:40.134Z"
+      },
+      {
+        "id": "0b897410-ed7d-42db-a827-27c839008ce2",
+        "familyId": "8b4e9521-f9b6-4f5c-b97c-7257d5605140",
+        "source": "15b9d257-dd11-4946-8c39-36de7169f0cb",
+        "target": "a5c83007-4596-44ab-a797-689aaa02e407",
+        "relationshipType": "PARENT_OF",
+        "createdAt": "2026-01-05T08:38:27.692Z"
+      }
+    ],
+    "_prisma_migrations": [
+      {
+        "id": "3551e63f-a724-4ae4-aa0d-f2824b39f215",
+        "checksum": "7d640962423ecaa6b388ee3af29b3ea5fd9b3087b036d4481cb85dddad5bcab2",
+        "finished_at": "2025-12-20T15:13:36.313Z",
+        "migration_name": "20251220151334_init",
+        "logs": null,
+        "rolled_back_at": null,
+        "started_at": "2025-12-20T15:13:35.204Z",
+        "applied_steps_count": 1
+      }
+    ]
+  }
+}
