@@ -49,7 +49,6 @@ interface TreeStore {
 
   createPerson(input: CreatePersonInput): Promise<Person>;
   updatePerson(personId: string, patch: UpdatePersonInput): Promise<void>;
-  movePerson(personId: string, position: { x: number; y: number }): void;
   deletePerson(personId: string): Promise<void>;
   claimPerson(personId: string, claim: boolean): Promise<void>;
 
@@ -211,33 +210,6 @@ export function TreeProvider({
     [treeId, graph.persons, patchPerson],
   );
 
-  // Dragging fires constantly; the canvas owns the visual position and this
-  // just persists where the card came to rest.
-  const moveTimers = useRef(new Map<string, ReturnType<typeof setTimeout>>());
-  const movePerson = useCallback<TreeStore['movePerson']>(
-    (personId, position) => {
-      patchPerson(personId, { posX: position.x, posY: position.y });
-
-      const timers = moveTimers.current;
-      const existing = timers.get(personId);
-      if (existing) clearTimeout(existing);
-
-      timers.set(
-        personId,
-        setTimeout(() => {
-          timers.delete(personId);
-          void api(`/api/trees/${treeId}/persons/${personId}`, {
-            method: 'PATCH',
-            body: { posX: position.x, posY: position.y },
-          }).catch(() => {
-            toast.error("That position didn't save. Check your connection.");
-          });
-        }, 500),
-      );
-    },
-    [treeId, patchPerson],
-  );
-
   const deletePerson = useCallback<TreeStore['deletePerson']>(
     async (personId) => {
       await api(`/api/trees/${treeId}/persons/${personId}`, { method: 'DELETE' });
@@ -330,7 +302,6 @@ export function TreeProvider({
       refresh,
       createPerson,
       updatePerson,
-      movePerson,
       deletePerson,
       claimPerson,
       createUnion,
@@ -342,7 +313,7 @@ export function TreeProvider({
     }),
     [
       graph, index, layout, meUserId, mePersonId, presence, syncing, connection, refresh,
-      createPerson, updatePerson, movePerson, deletePerson, claimPerson,
+      createPerson, updatePerson, deletePerson, claimPerson,
       createUnion, updateUnion, deleteUnion, createLink, deleteLink, updateTree,
     ],
   );

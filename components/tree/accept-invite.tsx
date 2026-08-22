@@ -63,7 +63,7 @@ export function AcceptInvite({
 
   return (
     <div className="w-full max-w-md">
-      <div className="rounded-3xl border border-border bg-card p-8 shadow-[var(--shadow-float)]">
+      <div className="rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-float)] sm:p-8">
         {invitedBy && (
           <div className="flex items-center gap-3 border-b border-border pb-6">
             {invitedBy.image ? (
@@ -88,14 +88,14 @@ export function AcceptInvite({
         )}
 
         <div className="pt-6">
-          <h1 className="font-display text-3xl leading-tight font-semibold tracking-tight">
+          <h1 className="font-display text-2xl leading-tight font-semibold tracking-tight sm:text-3xl">
             {tree.name}
           </h1>
           {tree.description && (
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{tree.description}</p>
           )}
 
-          <div className="mt-5 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+          <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
             <span className="inline-flex items-center gap-1.5">
               <TreeDeciduous className="size-4" />
               {tree.personCount} {tree.personCount === 1 ? 'person' : 'people'}

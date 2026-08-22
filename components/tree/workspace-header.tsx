@@ -11,6 +11,7 @@ import {
   Check,
   Loader2,
   Map,
+  MoreVertical,
   Network,
   Pencil,
   Plus,
@@ -22,9 +23,17 @@ import {
   WifiOff,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { LogoMark } from '@/components/brand/logo';
+import { ThemeToggle } from '@/components/theme-toggle';
 import { useTree } from '@/lib/hooks/use-tree';
 import { messageFor } from '@/lib/api-client';
 import { cn } from '@/lib/utils';
@@ -57,7 +66,7 @@ export function WorkspaceHeader({
   const { tree, canEdit, canManage, presence, connection, persons } = useTree();
 
   return (
-    <header className="z-30 flex h-14 shrink-0 items-center gap-2 border-b border-border/70 bg-background/90 px-3 backdrop-blur-xl">
+    <header className="z-30 flex h-14 shrink-0 items-center gap-1 border-b border-border/70 bg-background/90 px-2 backdrop-blur-xl sm:gap-2 sm:px-3">
       <Tooltip>
         <TooltipTrigger asChild>
           <Button asChild variant="ghost" size="icon" className="shrink-0">
@@ -75,7 +84,7 @@ export function WorkspaceHeader({
 
       <ViewSwitcher view={view} onViewChange={onViewChange} />
 
-      <div className="ml-auto flex items-center gap-1.5">
+      <div className="ml-auto flex shrink-0 items-center gap-0.5 sm:gap-1.5">
         <ConnectionDot connection={connection} />
         <PresenceStack presence={presence} onClick={onOpenMembers} />
 
@@ -90,9 +99,17 @@ export function WorkspaceHeader({
           </TooltipContent>
         </Tooltip>
 
+        {/* Below md these two live in the overflow menu — a phone header cannot
+            carry seven controls and still leave room for the tree's name. */}
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon" onClick={onOpenMembers} aria-label="Members">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onOpenMembers}
+              aria-label="Members"
+              className="hidden md:inline-flex"
+            >
               <Users className="size-4" />
             </Button>
           </TooltipTrigger>
@@ -102,7 +119,7 @@ export function WorkspaceHeader({
         {canManage && (
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button asChild variant="ghost" size="icon">
+              <Button asChild variant="ghost" size="icon" className="hidden md:inline-flex">
                 <Link href={`/tree/${tree.id}/settings`} aria-label="Tree settings">
                   <Settings className="size-4" />
                 </Link>
@@ -112,14 +129,25 @@ export function WorkspaceHeader({
           </Tooltip>
         )}
 
+        <OverflowMenu
+          treeId={tree.id}
+          canManage={canManage}
+          onOpenMembers={onOpenMembers}
+        />
+
         {canEdit && (
-          <Button onClick={onAddPerson} size="sm" className="ml-1 gap-1.5">
+          <Button
+            onClick={onAddPerson}
+            size="sm"
+            className="ml-0.5 gap-1.5 sm:ml-1"
+            aria-label="Add person"
+          >
             <Plus className="size-4" />
             <span className="hidden sm:inline">{persons.length === 0 ? 'Add the first person' : 'Add person'}</span>
           </Button>
         )}
 
-        <div className="ml-1.5">
+        <div className="ml-1 sm:ml-1.5">
           <UserButton appearance={{ elements: { avatarBox: 'size-7 ring-1 ring-border' } }} />
         </div>
       </div>
@@ -167,7 +195,7 @@ function TreeName() {
             }
           }}
           autoFocus
-          className="font-display h-8 w-52 text-sm font-semibold"
+          className="font-display h-8 w-36 text-sm font-semibold sm:w-52"
           maxLength={80}
         />
         <Button size="icon-sm" variant="ghost" onClick={save} disabled={busy} aria-label="Save name">
@@ -183,7 +211,7 @@ function TreeName() {
       onClick={() => canManage && setEditing(true)}
       disabled={!canManage}
       className={cn(
-        'group flex min-w-0 items-center gap-1.5 rounded-lg px-2 py-1 text-left',
+        'group flex min-w-0 shrink items-center gap-1.5 rounded-lg px-1.5 py-1 text-left sm:px-2',
         canManage && 'hover:bg-muted',
       )}
       title={canManage ? 'Rename this tree' : tree.name}
@@ -232,7 +260,7 @@ export function MobileViewBar({
   onViewChange: (view: ViewKey) => void;
 }) {
   return (
-    <nav className="z-30 flex shrink-0 items-center justify-around border-t border-border/70 bg-background/95 px-2 py-1.5 backdrop-blur-xl md:hidden">
+    <nav className="z-30 flex shrink-0 items-center justify-around border-t border-border/70 bg-background/95 px-2 py-1.5 pb-[max(0.375rem,env(safe-area-inset-bottom))] backdrop-blur-xl md:hidden">
       {VIEWS.map((item) => (
         <button
           key={item.key}
@@ -248,6 +276,46 @@ export function MobileViewBar({
         </button>
       ))}
     </nav>
+  );
+}
+
+/** Members, settings and the theme, folded away where the header is narrow. */
+function OverflowMenu({
+  treeId,
+  canManage,
+  onOpenMembers,
+}: {
+  treeId: string;
+  canManage: boolean;
+  onOpenMembers: () => void;
+}) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon" className="md:hidden" aria-label="More">
+          <MoreVertical className="size-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-56">
+        <DropdownMenuItem onClick={onOpenMembers}>
+          <Users className="size-4" />
+          Members &amp; invites
+        </DropdownMenuItem>
+        {canManage && (
+          <DropdownMenuItem asChild>
+            <Link href={`/tree/${treeId}/settings`}>
+              <Settings className="size-4" />
+              Tree settings
+            </Link>
+          </DropdownMenuItem>
+        )}
+        <DropdownMenuSeparator />
+        <div className="flex items-center justify-between px-2 py-1.5">
+          <span className="text-sm text-muted-foreground">Theme</span>
+          <ThemeToggle />
+        </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 

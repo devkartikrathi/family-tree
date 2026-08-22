@@ -112,9 +112,9 @@ export function PeopleView({
 
   return (
     <div className="flex h-full flex-col">
-      <div className="shrink-0 space-y-3 border-b border-border px-5 py-4">
+      <div className="shrink-0 space-y-3 border-b border-border px-4 py-3 sm:px-5 sm:py-4">
         <div className="flex flex-wrap items-center gap-3">
-          <div className="relative min-w-56 flex-1">
+          <div className="relative w-full flex-1 sm:w-auto sm:min-w-56">
             <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               value={query}
@@ -182,9 +182,9 @@ export function PeopleView({
                 active={sort.key === 'name'}
                 direction={sort.direction}
                 onClick={() => toggleSort('name')}
-                className="pl-5"
+                className="pl-4 sm:pl-5"
               />
-              <th className="px-3 py-2.5 text-xs font-medium text-muted-foreground">
+              <th className="hidden px-3 py-2.5 text-xs font-medium text-muted-foreground sm:table-cell">
                 {mePersonId ? 'Relationship' : 'Also known as'}
               </th>
               <SortHeader
@@ -231,13 +231,13 @@ export function PeopleView({
         </table>
 
         {rows.length === 0 && (
-          <p className="px-5 py-12 text-center text-sm text-muted-foreground">
+          <p className="px-4 py-12 text-center text-sm text-muted-foreground sm:px-5">
             Nobody matches those filters.
           </p>
         )}
       </div>
 
-      <div className="shrink-0 border-t border-border px-5 py-2.5 text-xs text-muted-foreground">
+      <div className="shrink-0 border-t border-border px-4 py-2.5 text-xs text-muted-foreground sm:px-5">
         Showing {rows.length} of {persons.length}
       </div>
     </div>
@@ -306,7 +306,7 @@ function PersonRow({
         selected ? 'bg-ochre-soft/50' : 'hover:bg-muted/50',
       )}
     >
-      <td className="py-2.5 pr-3 pl-5">
+      <td className="py-2.5 pr-3 pl-4 sm:pl-5">
         <div className="flex items-center gap-2.5">
           <PersonAvatar person={person} size="sm" />
           <div className="min-w-0">
@@ -323,7 +323,7 @@ function PersonRow({
         </div>
       </td>
 
-      <td className="px-3 py-2.5 text-muted-foreground">
+      <td className="hidden px-3 py-2.5 text-muted-foreground sm:table-cell">
         {relationship ?? person.nickname ?? <span className="opacity-40">—</span>}
       </td>
 

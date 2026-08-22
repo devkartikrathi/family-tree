@@ -59,16 +59,16 @@ const FEATURES = [
 
 export function Capabilities() {
   return (
-    <section className="border-t border-border/70 px-5 py-24">
+    <section className="border-t border-border/70 px-4 py-16 sm:px-5 sm:py-24">
       <div className="mx-auto max-w-6xl">
         <div className="max-w-2xl">
           <p className="text-sm font-medium tracking-wide text-ochre uppercase">What you get</p>
-          <h2 className="font-display mt-3 text-4xl font-semibold tracking-tight sm:text-[2.75rem]">
+          <h2 className="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl md:text-[2.75rem]">
             Everything a family archive needs. Nothing it doesn&apos;t.
           </h2>
         </div>
 
-        <div className="mt-14 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+        <div className="mt-10 grid gap-4 sm:mt-14 sm:grid-cols-2 md:grid-cols-3">
           {FEATURES.map((feature, index) => (
             <motion.div
               key={feature.title}

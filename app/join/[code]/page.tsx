@@ -51,14 +51,14 @@ export default async function JoinPage({ params }: { params: Promise<{ code: str
 
   return (
     <div className="relative isolate flex min-h-screen flex-col">
-      <header className="flex h-16 items-center justify-between px-5">
+      <header className="flex h-16 items-center justify-between gap-3 px-4 sm:px-5">
         <Link href="/" aria-label="Legacy home">
           <Wordmark />
         </Link>
         <ThemeToggle />
       </header>
 
-      <main className="flex flex-1 items-center justify-center px-5 py-10">
+      <main className="flex flex-1 items-center justify-center px-4 py-8 sm:px-5 sm:py-10">
         <AcceptInvite
           code={invite.code}
           status={status}
@@ -77,7 +77,7 @@ export default async function JoinPage({ params }: { params: Promise<{ code: str
         />
       </main>
 
-      <footer className="px-5 py-8 text-center">
+      <footer className="px-4 py-8 text-center sm:px-5">
         <Link
           href="/tree"
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"

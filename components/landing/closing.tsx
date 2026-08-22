@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 
 export function Closing() {
   return (
-    <section id="open" className="border-t border-border/70 px-5 py-28">
+    <section id="open" className="border-t border-border/70 px-4 py-20 sm:px-5 sm:py-28">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -20,26 +20,26 @@ export function Closing() {
           <span className="text-xs tracking-[0.2em] uppercase">Begin</span>
         </div>
 
-        <h2 className="font-display text-4xl leading-[1.1] font-semibold tracking-tight sm:text-5xl">
+        <h2 className="font-display text-[1.75rem] leading-[1.15] font-semibold tracking-tight min-[420px]:text-3xl sm:text-4xl sm:leading-[1.1] md:text-5xl">
           The people who remember won&apos;t always be here to ask.
         </h2>
 
-        <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
+        <p className="mt-5 text-base leading-relaxed text-muted-foreground sm:mt-6 sm:text-lg">
           Start with one name. Add the two above it. Send the link to the person most likely to
           correct you — that is usually how the good stuff surfaces.
         </p>
 
-        <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+        <div className="mt-9 flex flex-col justify-center gap-3 sm:mt-10 sm:flex-row">
           <SignedOut>
             <SignInButton mode="modal">
-              <Button size="xl" className="gap-2">
+              <Button size="xl" className="w-full gap-2 sm:w-auto">
                 Start your family tree
                 <ArrowRight className="size-4" />
               </Button>
             </SignInButton>
           </SignedOut>
           <SignedIn>
-            <Button asChild size="xl" className="gap-2">
+            <Button asChild size="xl" className="w-full gap-2 sm:w-auto">
               <Link href="/tree">
                 Open your trees
                 <ArrowRight className="size-4" />

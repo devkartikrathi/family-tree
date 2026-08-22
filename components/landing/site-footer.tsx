@@ -4,7 +4,7 @@ import { ThemeToggle } from '@/components/theme-toggle';
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border/70 px-5 py-12">
+    <footer className="border-t border-border/70 px-4 py-10 sm:px-5 sm:py-12">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <Wordmark />

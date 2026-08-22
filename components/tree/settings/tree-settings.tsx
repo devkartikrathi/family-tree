@@ -72,7 +72,7 @@ export function TreeSettings() {
 
   return (
     <div className="min-h-[100dvh] overflow-y-auto">
-      <div className="mx-auto max-w-2xl px-5 py-10">
+      <div className="mx-auto max-w-2xl px-4 py-8 sm:px-5 sm:py-10">
         <Button asChild variant="ghost" size="sm" className="-ml-2 gap-1.5">
           <Link href={`/tree/${tree.id}`}>
             <ArrowLeft className="size-3.5" />

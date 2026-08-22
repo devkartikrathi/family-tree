@@ -131,7 +131,7 @@ export function MembersPanel({
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="flex w-full flex-col gap-0 p-0 sm:max-w-md">
-        <SheetHeader className="border-b border-border px-5 py-4">
+        <SheetHeader className="border-b border-border px-4 py-4 pr-12 sm:px-5">
           <SheetTitle className="font-display text-lg">Who&apos;s in this tree</SheetTitle>
           <SheetDescription>
             {ROLE_LABELS[role].label} access — {ROLE_LABELS[role].description.toLowerCase()}
@@ -139,7 +139,7 @@ export function MembersPanel({
         </SheetHeader>
 
         <Tabs defaultValue="members" className="flex min-h-0 flex-1 flex-col gap-0">
-          <TabsList className="mx-5 mt-4 grid w-auto grid-cols-3">
+          <TabsList className="mx-4 mt-4 grid w-auto grid-cols-3 sm:mx-5">
             <TabsTrigger value="members">Members</TabsTrigger>
             <TabsTrigger value="invites" disabled={!canManage}>
               Invites
@@ -147,7 +147,7 @@ export function MembersPanel({
             <TabsTrigger value="activity">Activity</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="members" className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
+          <TabsContent value="members" className="min-h-0 flex-1 overflow-y-auto px-4 py-4 sm:px-5">
             {members === null ? (
               <Loading />
             ) : (
@@ -171,7 +171,7 @@ export function MembersPanel({
             )}
           </TabsContent>
 
-          <TabsContent value="invites" className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
+          <TabsContent value="invites" className="min-h-0 flex-1 overflow-y-auto px-4 py-4 sm:px-5">
             <InvitesTab
               treeId={tree.id}
               invites={invites}
@@ -182,7 +182,7 @@ export function MembersPanel({
             />
           </TabsContent>
 
-          <TabsContent value="activity" className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
+          <TabsContent value="activity" className="min-h-0 flex-1 overflow-y-auto px-4 py-4 sm:px-5">
             {events === null ? (
               <Loading />
             ) : events.length === 0 ? (

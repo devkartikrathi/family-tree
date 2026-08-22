@@ -36,8 +36,6 @@ export function serializePerson(
     occupation: row.occupation,
     bio: row.bio,
     photoUrl: row.photoUrl,
-    posX: row.posX,
-    posY: row.posY,
     claimedByUserId: row.claimedByUserId,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),

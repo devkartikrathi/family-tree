@@ -61,10 +61,10 @@ export function TreeHome({ trees, firstName }: { trees: TreeSummary[]; firstName
   );
 
   return (
-    <main className="mx-auto max-w-6xl px-5 py-12">
+    <main className="mx-auto max-w-6xl px-4 py-8 sm:px-5 sm:py-12">
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="font-display text-4xl font-semibold tracking-tight">{heading}</h1>
+          <h1 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">{heading}</h1>
           <p className="mt-2 text-muted-foreground">
             {trees.length === 0
               ? 'Nothing here yet — that changes with one name.'
@@ -72,7 +72,7 @@ export function TreeHome({ trees, firstName }: { trees: TreeSummary[]; firstName
           </p>
         </div>
 
-        <div className="flex gap-2">
+        <div className="grid grid-cols-2 gap-2 sm:flex">
           <JoinDialog open={joinOpen} onOpenChange={setJoinOpen} />
           <CreateDialog
             open={createOpen}
@@ -97,7 +97,7 @@ export function TreeHome({ trees, firstName }: { trees: TreeSummary[]; firstName
           />
         </div>
       ) : (
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-2 lg:grid-cols-3">
           {trees.map((tree) => (
             <TreeCard key={tree.id} tree={tree} />
           ))}
@@ -199,7 +199,7 @@ function CreateDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button className="gap-2">
+        <Button className="w-full gap-2 sm:w-auto">
           <Plus className="size-4" />
           New tree
         </Button>
@@ -278,7 +278,7 @@ function JoinDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="gap-2">
+        <Button variant="outline" className="w-full gap-2 sm:w-auto">
           <Ticket className="size-4" />
           Use an invite
         </Button>

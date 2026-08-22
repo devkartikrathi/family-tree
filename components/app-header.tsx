@@ -18,7 +18,7 @@ export function AppHeader({
         className,
       )}
     >
-      <div className="mx-auto flex h-16 max-w-6xl items-center gap-4 px-5">
+      <div className="mx-auto flex h-16 max-w-6xl items-center gap-4 px-4 sm:px-5">
         <Link href="/tree" className="rounded-lg" aria-label="Your trees">
           <Wordmark />
         </Link>

@@ -63,88 +63,93 @@ export function TreePreview({ className }: { className?: string }) {
   const reduceMotion = useReducedMotion();
 
   return (
-    <svg
-      viewBox="0 0 720 400"
-      className={cn('h-auto w-full', className)}
-      role="img"
-      aria-label="A family tree showing three generations of the Rathi family"
-    >
-      <g stroke="var(--edge-line)" strokeWidth="1.5" fill="none" strokeLinecap="round">
-        {EDGES.map((d, index) => (
-          <motion.path
-            key={d}
-            d={d}
-            initial={reduceMotion ? undefined : { pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: 1, opacity: 1 }}
-            transition={{ duration: 0.9, delay: 0.15 + index * 0.12, ease: 'easeOut' }}
+    // Scaled to fit a phone, the whole drawing would render its labels at four
+    // or five pixels. Better to keep the type legible and let the panel scroll
+    // sideways — which is what the real canvas does anyway.
+    <div className="-mx-1 min-w-0 overflow-x-auto px-1 pb-1">
+      <svg
+        viewBox="0 0 720 400"
+        className={cn('h-auto w-full min-w-[34rem]', className)}
+        role="img"
+        aria-label="A family tree showing three generations of the Rathi family"
+      >
+        <g stroke="var(--edge-line)" strokeWidth="1.5" fill="none" strokeLinecap="round">
+          {EDGES.map((d, index) => (
+            <motion.path
+              key={d}
+              d={d}
+              initial={reduceMotion ? undefined : { pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: 1 }}
+              transition={{ duration: 0.9, delay: 0.15 + index * 0.12, ease: 'easeOut' }}
+            />
+          ))}
+        </g>
+
+        {KNOTS.map((knot, index) => (
+          <motion.circle
+            key={knot.id}
+            cx={knot.x}
+            cy={knot.y}
+            r="4.5"
+            fill="var(--ochre)"
+            initial={reduceMotion ? undefined : { scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.5 + index * 0.15, type: 'spring', stiffness: 240, damping: 18 }}
+            style={{ transformOrigin: `${knot.x}px ${knot.y}px` }}
           />
         ))}
-      </g>
 
-      {KNOTS.map((knot, index) => (
-        <motion.circle
-          key={knot.id}
-          cx={knot.x}
-          cy={knot.y}
-          r="4.5"
-          fill="var(--ochre)"
-          initial={reduceMotion ? undefined : { scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.5 + index * 0.15, type: 'spring', stiffness: 240, damping: 18 }}
-          style={{ transformOrigin: `${knot.x}px ${knot.y}px` }}
-        />
-      ))}
-
-      {CARDS.map((card, index) => {
-        const tint = TINTS[card.tint];
-        return (
-          <motion.g
-            key={card.id}
-            initial={reduceMotion ? undefined : { opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 + index * 0.07, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <rect
-              x={card.x}
-              y={card.y}
-              width={CARD_W}
-              height={CARD_H}
-              rx="12"
-              fill="var(--card)"
-              stroke="var(--border)"
-              strokeWidth="1"
-            />
-            <circle cx={card.x + 30} cy={card.y + 28} r="15" fill={tint.fill} />
-            <text
-              x={card.x + 30}
-              y={card.y + 33}
-              textAnchor="middle"
-              fontSize="12"
-              fontWeight="600"
-              fill={tint.text}
-              fontFamily="var(--font-display)"
+        {CARDS.map((card, index) => {
+          const tint = TINTS[card.tint];
+          return (
+            <motion.g
+              key={card.id}
+              initial={reduceMotion ? undefined : { opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 + index * 0.07, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             >
-              {card.initials}
-            </text>
-            <text
-              x={card.x + 54}
-              y={card.y + 25}
-              fontSize="12.5"
-              fontWeight="600"
-              fill="var(--card-foreground)"
-              fontFamily="var(--font-display)"
-            >
-              {card.name}
-            </text>
-            <text x={card.x + 54} y={card.y + 41} fontSize="10.5" fill="var(--muted-foreground)">
-              {card.years}
-            </text>
-            {card.deceased && (
-              <circle cx={card.x + CARD_W - 14} cy={card.y + 14} r="3" fill="var(--muted-foreground)" opacity="0.4" />
-            )}
-          </motion.g>
-        );
-      })}
-    </svg>
+              <rect
+                x={card.x}
+                y={card.y}
+                width={CARD_W}
+                height={CARD_H}
+                rx="12"
+                fill="var(--card)"
+                stroke="var(--border)"
+                strokeWidth="1"
+              />
+              <circle cx={card.x + 30} cy={card.y + 28} r="15" fill={tint.fill} />
+              <text
+                x={card.x + 30}
+                y={card.y + 33}
+                textAnchor="middle"
+                fontSize="12"
+                fontWeight="600"
+                fill={tint.text}
+                fontFamily="var(--font-display)"
+              >
+                {card.initials}
+              </text>
+              <text
+                x={card.x + 54}
+                y={card.y + 25}
+                fontSize="12.5"
+                fontWeight="600"
+                fill="var(--card-foreground)"
+                fontFamily="var(--font-display)"
+              >
+                {card.name}
+              </text>
+              <text x={card.x + 54} y={card.y + 41} fontSize="10.5" fill="var(--muted-foreground)">
+                {card.years}
+              </text>
+              {card.deceased && (
+                <circle cx={card.x + CARD_W - 14} cy={card.y + 14} r="3" fill="var(--muted-foreground)" opacity="0.4" />
+              )}
+            </motion.g>
+          );
+        })}
+      </svg>
+    </div>
   );
 }

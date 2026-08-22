@@ -65,8 +65,10 @@ export function PersonPanel({
       aria-hidden={!open}
       className={cn(
         'z-20 shrink-0 overflow-hidden border-l border-border bg-card transition-[width,transform] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
-        'absolute inset-y-0 right-0 w-full sm:relative sm:inset-auto',
-        open ? 'translate-x-0 sm:w-[26rem]' : 'pointer-events-none translate-x-full sm:w-0 sm:translate-x-0',
+        // Below md it covers the view entirely; a 26rem panel beside a 360px
+        // canvas leaves neither one usable.
+        'absolute inset-y-0 right-0 w-full md:relative md:inset-auto',
+        open ? 'translate-x-0 md:w-[26rem]' : 'pointer-events-none translate-x-full md:w-0 md:translate-x-0',
       )}
     >
       {person && (
@@ -135,9 +137,9 @@ function PanelBody({
   };
 
   return (
-    <div className="flex h-full w-full flex-col sm:w-[26rem]">
-      <div className="flex items-start gap-3 border-b border-border p-5">
-        <PersonAvatar person={person} size="2xl" />
+    <div className="flex h-full w-full flex-col md:w-[26rem]">
+      <div className="flex items-start gap-3 border-b border-border p-4 sm:p-5">
+        <PersonAvatar person={person} size="2xl" className="size-20 text-xl sm:size-28 sm:text-3xl" />
 
         <div className="min-w-0 flex-1 pt-1">
           <h2 className="font-display text-xl leading-tight font-semibold tracking-tight">
@@ -176,7 +178,7 @@ function PanelBody({
         </Button>
       </div>
 
-      <div className="flex items-center gap-2 border-b border-border px-5 py-3">
+      <div className="flex items-center gap-2 border-b border-border px-4 py-3 sm:px-5">
         {canEdit && (
           <>
             <Button size="sm" variant="outline" className="gap-1.5" onClick={() => onEdit(person.id)}>
@@ -245,7 +247,7 @@ function PanelBody({
 
       <div className="min-h-0 flex-1 overflow-y-auto">
         {path && path.length > 2 && (
-          <section className="border-b border-border bg-surface-sunken/50 px-5 py-4">
+          <section className="border-b border-border bg-surface-sunken/50 px-4 py-4 sm:px-5">
             <h3 className="text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
               How you&apos;re connected
             </h3>
@@ -272,7 +274,7 @@ function PanelBody({
         <Facts person={person} />
 
         {person.bio && (
-          <section className="border-b border-border px-5 py-5">
+          <section className="border-b border-border px-4 py-5 sm:px-5">
             <h3 className="text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
               Their story
             </h3>
@@ -292,7 +294,7 @@ function PanelBody({
         />
 
         {unions.length > 0 && (
-          <section className="border-b border-border px-5 py-5">
+          <section className="border-b border-border px-4 py-5 sm:px-5">
             <h3 className="text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
               {unions.length === 1 ? 'Partner' : 'Partners'}
             </h3>
@@ -388,7 +390,7 @@ function Facts({ person }: { person: Person }) {
 
   if (facts.length === 0) {
     return (
-      <section className="border-b border-border px-5 py-5">
+      <section className="border-b border-border px-4 py-5 sm:px-5">
         <p className="text-sm text-muted-foreground italic">
           {person.redacted
             ? 'This tree protects the details of living people.'
@@ -399,7 +401,7 @@ function Facts({ person }: { person: Person }) {
   }
 
   return (
-    <section className="border-b border-border px-5 py-5">
+    <section className="border-b border-border px-4 py-5 sm:px-5">
       <dl className="space-y-3">
         {facts.map((fact) => (
           <div key={fact.label} className="flex gap-3">
@@ -433,7 +435,7 @@ function RelationGroup({
   if (people.length === 0 && !emptyAction) return null;
 
   return (
-    <section className="border-b border-border px-5 py-5">
+    <section className="border-b border-border px-4 py-5 sm:px-5">
       <h3 className="text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
         {title}
       </h3>

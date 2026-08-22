@@ -5,7 +5,6 @@ export type Sex = 'MALE' | 'FEMALE' | 'OTHER' | 'UNKNOWN';
 export type UnionKind = 'MARRIAGE' | 'PARTNERSHIP' | 'OTHER';
 export type UnionStatus = 'CURRENT' | 'SEPARATED' | 'DIVORCED' | 'WIDOWED' | 'UNKNOWN';
 export type ParentKind = 'BIOLOGICAL' | 'ADOPTED' | 'STEP' | 'FOSTER' | 'GUARDIAN';
-export type LayoutMode = 'AUTO' | 'FREEFORM';
 
 export interface Person {
   id: string;
@@ -34,9 +33,6 @@ export interface Person {
   occupation: string | null;
   bio: string | null;
   photoUrl: string | null;
-
-  posX: number | null;
-  posY: number | null;
 
   claimedByUserId: string | null;
 
@@ -73,7 +69,6 @@ export interface Tree {
   name: string;
   description: string | null;
   accent: string | null;
-  layoutMode: LayoutMode;
   protectLiving: boolean;
   createdById: string;
   createdAt: string;

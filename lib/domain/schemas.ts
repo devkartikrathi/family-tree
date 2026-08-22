@@ -19,7 +19,6 @@ export const SexSchema = z.enum(['MALE', 'FEMALE', 'OTHER', 'UNKNOWN']);
 export const UnionKindSchema = z.enum(['MARRIAGE', 'PARTNERSHIP', 'OTHER']);
 export const UnionStatusSchema = z.enum(['CURRENT', 'SEPARATED', 'DIVORCED', 'WIDOWED', 'UNKNOWN']);
 export const ParentKindSchema = z.enum(['BIOLOGICAL', 'ADOPTED', 'STEP', 'FOSTER', 'GUARDIAN']);
-export const LayoutModeSchema = z.enum(['AUTO', 'FREEFORM']);
 
 // ---------------------------------------------------------------------------
 // Tree
@@ -35,7 +34,6 @@ export const UpdateTreeSchema = z
     name: z.string().trim().min(1).max(80).optional(),
     description: optionalText(500),
     accent: z.enum(['ochre', 'sage', 'clay', 'indigo', 'plum']).optional(),
-    layoutMode: LayoutModeSchema.optional(),
     protectLiving: z.boolean().optional(),
   })
   .refine((value) => Object.keys(value).length > 0, { message: 'Nothing to update' });
@@ -71,10 +69,7 @@ export const PersonInputSchema = z.object({
   photoUrl: z.string().url().max(2000).or(z.literal('')).nullish(),
 });
 
-export const UpdatePersonSchema = PersonInputSchema.partial().extend({
-  posX: z.number().finite().nullish(),
-  posY: z.number().finite().nullish(),
-});
+export const UpdatePersonSchema = PersonInputSchema.partial();
 
 /**
  * Creating a person is almost always creating a *relationship* too — "add her
@@ -92,11 +87,6 @@ export const CreatePersonSchema = PersonInputSchema.extend({
       unionKind: UnionKindSchema.default('MARRIAGE'),
     })
     .nullish(),
-});
-
-export const MovePersonSchema = z.object({
-  posX: z.number().finite(),
-  posY: z.number().finite(),
 });
 
 export const ClaimPersonSchema = z.object({ claim: z.boolean() });

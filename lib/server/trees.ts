@@ -10,14 +10,18 @@ export function serializeTree(row: {
   name: string;
   description: string | null;
   accent: string | null;
-  layoutMode: 'AUTO' | 'FREEFORM';
   protectLiving: boolean;
   createdById: string;
   createdAt: Date;
   updatedAt: Date;
 }): Tree {
   return {
-    ...row,
+    id: row.id,
+    name: row.name,
+    description: row.description,
+    accent: row.accent,
+    protectLiving: row.protectLiving,
+    createdById: row.createdById,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
   };
@@ -59,7 +63,6 @@ export async function listTreesForUser(userId: string): Promise<TreeSummary[]> {
           name: true,
           description: true,
           accent: true,
-          layoutMode: true,
           protectLiving: true,
           createdById: true,
           createdAt: true,

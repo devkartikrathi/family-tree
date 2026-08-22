@@ -191,7 +191,7 @@ function WorkspaceInner() {
         <UnionEditorDialog unionId={unionEditorId} onClose={() => setUnionEditorId(null)} />
       )}
 
-      {persons.length > 0 && view === 'tree' && <KeyboardHint />}
+      {persons.length > 0 && view === 'tree' && !selectedId && <KeyboardHint />}
     </div>
   );
 }
@@ -218,17 +218,25 @@ function KeyboardHint() {
   if (dismissed) return null;
 
   return (
-    <div className="pointer-events-auto fixed bottom-20 left-1/2 z-30 -translate-x-1/2 md:bottom-6">
-      <div className="flex items-center gap-3 rounded-full border border-border bg-card/95 px-4 py-2 text-xs shadow-[var(--shadow-float)] backdrop-blur">
-        <span className="text-muted-foreground">
-          Hover anyone to add a <strong className="font-medium text-foreground">parent</strong>,{' '}
+    // Clear of the zoom controls on a phone, centred above them on a desktop.
+    <div className="pointer-events-auto fixed inset-x-3 bottom-28 z-30 md:inset-x-auto md:bottom-6 md:left-1/2 md:-translate-x-1/2">
+      <div className="mx-auto flex max-w-lg items-center gap-3 rounded-2xl border border-border bg-card/95 px-4 py-2.5 text-xs shadow-[var(--shadow-float)] backdrop-blur md:rounded-full md:py-2">
+        <span className="min-w-0 text-muted-foreground">
+          {/* Two phrasings, because "hover" means nothing on a touch screen. */}
+          <span className="md:hidden">Tap anyone</span>
+          <span className="hidden md:inline">Hover anyone</span> to add a{' '}
+          <strong className="font-medium text-foreground">parent</strong>,{' '}
           <strong className="font-medium text-foreground">partner</strong> or{' '}
-          <strong className="font-medium text-foreground">child</strong>. Press{' '}
-          <kbd className="rounded border border-border bg-muted px-1 font-mono">⌘K</kbd> to search.
+          <strong className="font-medium text-foreground">child</strong>.
+          <span className="hidden md:inline">
+            {' '}
+            Press <kbd className="rounded border border-border bg-muted px-1 font-mono">⌘K</kbd> to
+            search.
+          </span>
         </span>
         <button
           type="button"
-          className="font-medium text-ochre hover:underline"
+          className="shrink-0 font-medium text-ochre hover:underline"
           onClick={() => {
             window.localStorage.setItem('legacy:hint-dismissed', '1');
             setDismissed(true);

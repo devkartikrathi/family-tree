@@ -18,7 +18,7 @@ export default function ErrorBoundary({
   }, [error]);
 
   return (
-    <div className="relative isolate grid min-h-[100dvh] place-items-center px-5">
+    <div className="relative isolate grid min-h-[100dvh] place-items-center px-4 sm:px-5">
       <div className="w-full max-w-md text-center">
         <Wordmark className="justify-center" />
 

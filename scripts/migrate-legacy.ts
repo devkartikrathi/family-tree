@@ -199,7 +199,6 @@ async function main() {
           name: family.name,
           createdAt: family.createdAt,
           createdById: owner,
-          layoutMode: 'AUTO',
         },
       });
 
@@ -232,8 +231,6 @@ async function main() {
         const primary = await tx.person.create({
           data: {
             ...toPersonData(data.primary ?? {}, surname, family.id),
-            posX: node.positionX,
-            posY: node.positionY,
             createdById: owner,
           },
           select: { id: true },
@@ -245,8 +242,6 @@ async function main() {
           const spouse = await tx.person.create({
             data: {
               ...toPersonData(data.spouse, surname, family.id),
-              posX: node.positionX + 260,
-              posY: node.positionY,
               createdById: owner,
             },
             select: { id: true },

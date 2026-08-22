@@ -34,18 +34,13 @@ export const PATCH = route<Context>(async (request, { params }) => {
     data: nullify(input),
   });
 
-  // Dragging a card fires a position-only PATCH many times; those are not
-  // worth an entry in the family's activity feed.
-  const isPositionOnly = Object.keys(input).every((key) => key === 'posX' || key === 'posY');
-  if (!isPositionOnly) {
-    await recordEvent({
-      treeId,
-      actorId: userId,
-      action: 'person.updated',
-      subject: personName(person),
-      payload: { personId, fields: Object.keys(input) },
-    });
-  }
+  await recordEvent({
+    treeId,
+    actorId: userId,
+    action: 'person.updated',
+    subject: personName(person),
+    payload: { personId, fields: Object.keys(input) },
+  });
 
   return ok(serializePerson(person, role, tree.protectLiving));
 });

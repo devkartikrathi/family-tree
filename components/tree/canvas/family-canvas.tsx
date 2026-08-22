@@ -53,24 +53,31 @@ function CanvasInner({
   onAddFirstPerson,
   onEditUnion,
 }: FamilyCanvasProps) {
-  const { persons, unions, links, index, layout, tree, canEdit, mePersonId, movePerson } = useTree();
+  const { persons, unions, links, index, layout, canEdit, mePersonId } = useTree();
   const flow = useReactFlow();
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const freeform = tree.layoutMode === 'FREEFORM';
 
-  /** Where each card actually sits: the computed row, or wherever it was dragged. */
+  /**
+   * Fitting a whole family into a phone's width shrinks the cards to a smear.
+   * On a small screen we'd rather open at a readable scale and let people pan;
+   * the "fit the whole tree" button is still there when they want the shape.
+   * Read once, on mount — React Flow only consults this for the initial fit.
+   */
+  const [fitViewOptions] = useState(() => ({
+    padding: 0.24,
+    maxZoom: 1,
+    minZoom: typeof window !== 'undefined' && window.innerWidth < 768 ? 0.55 : 0.08,
+  }));
+
+  /** Where each card sits — always the computed generation row. */
   const positions = useMemo(() => {
     const map = new Map<string, { x: number; y: number }>();
     for (const person of persons) {
-      const auto = layout.persons.get(person.id);
-      const manual = freeform && person.posX !== null && person.posY !== null
-        ? { x: person.posX, y: person.posY }
-        : null;
-      const point = manual ?? auto;
+      const point = layout.persons.get(person.id);
       if (point) map.set(person.id, point);
     }
     return map;
-  }, [persons, layout, freeform]);
+  }, [persons, layout]);
 
   const knots = useMemo(() => {
     const map = new Map<string, { x: number; y: number }>();
@@ -79,7 +86,6 @@ function CanvasInner({
         .map((id) => positions.get(id))
         .filter((p): p is { x: number; y: number } => Boolean(p));
       if (points.length === 0) continue;
-      // In freeform the knot follows the partners rather than the stale layout.
       map.set(union.id, {
         x: points.reduce((sum, p) => sum + p.x, 0) / points.length,
         y: points.reduce((sum, p) => sum + p.y, 0) / points.length,
@@ -109,7 +115,7 @@ function CanvasInner({
           type: 'person',
           position: { x: point.x - CARD_WIDTH / 2, y: point.y - CARD_HEIGHT / 2 },
           selected: person.id === selectedId,
-          draggable: freeform && canEdit,
+          draggable: false,
           data: {
             person,
             isMe: person.id === mePersonId,
@@ -143,7 +149,7 @@ function CanvasInner({
     });
 
     return [...unionNodes, ...personNodes];
-  }, [persons, unions, positions, knots, selectedId, freeform, canEdit, mePersonId, index]);
+  }, [persons, unions, positions, knots, selectedId, canEdit, mePersonId, index]);
 
   const edges = useMemo<Edge[]>(() => {
     // Typed as the built-in union so `pathOptions` on smoothstep edges is checked.
@@ -254,17 +260,6 @@ function CanvasInner({
     [onSelect],
   );
 
-  const handleDragStop = useCallback<NodeMouseHandler>(
-    (_event, node) => {
-      if (node.type !== 'person') return;
-      movePerson(node.id, {
-        x: node.position.x + CARD_WIDTH / 2,
-        y: node.position.y + CARD_HEIGHT / 2,
-      });
-    },
-    [movePerson],
-  );
-
   // Bring the selected person into view when the selection came from elsewhere
   // — search, the people table, a deep link.
   const lastFocused = useRef<string | null>(null);
@@ -311,14 +306,13 @@ function CanvasInner({
           edges={edges}
           nodeTypes={nodeTypes}
           onNodeClick={handleNodeClick}
-          onNodeDragStop={handleDragStop}
           onPaneClick={() => onSelect(null)}
           nodesConnectable={false}
-          nodesDraggable={freeform && canEdit}
+          nodesDraggable={false}
           elementsSelectable
           proOptions={{ hideAttribution: true }}
           fitView
-          fitViewOptions={{ padding: 0.24, maxZoom: 1 }}
+          fitViewOptions={fitViewOptions}
           minZoom={0.08}
           maxZoom={1.75}
           zoomOnDoubleClick={false}

@@ -29,7 +29,6 @@ export const PATCH = route<Context>(async (request, { params }) => {
       ...(input.name !== undefined ? { name: input.name } : {}),
       ...(input.description !== undefined ? { description: input.description || null } : {}),
       ...(input.accent !== undefined ? { accent: input.accent } : {}),
-      ...(input.layoutMode !== undefined ? { layoutMode: input.layoutMode } : {}),
       ...(input.protectLiving !== undefined ? { protectLiving: input.protectLiving } : {}),
     },
   });

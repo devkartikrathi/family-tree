@@ -64,7 +64,6 @@ export interface TreeAccess {
     name: string;
     description: string | null;
     accent: string | null;
-    layoutMode: 'AUTO' | 'FREEFORM';
     protectLiving: boolean;
     createdById: string;
     createdAt: Date;
@@ -90,7 +89,6 @@ export async function requireTreeAccess(treeId: string, minimum: Role = 'VIEWER'
           name: true,
           description: true,
           accent: true,
-          layoutMode: true,
           protectLiving: true,
           createdById: true,
           createdAt: true,

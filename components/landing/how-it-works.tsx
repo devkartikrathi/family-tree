@@ -29,20 +29,20 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section id="how" className="border-t border-border/70 px-5 py-24">
+    <section id="how" className="border-t border-border/70 px-4 py-16 sm:px-5 sm:py-24">
       <div className="mx-auto max-w-6xl">
         <div className="max-w-2xl">
           <p className="text-sm font-medium tracking-wide text-ochre uppercase">How it works</p>
-          <h2 className="font-display mt-3 text-4xl font-semibold tracking-tight sm:text-[2.75rem]">
+          <h2 className="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl md:text-[2.75rem]">
             A family tree is a group project.
           </h2>
-          <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+          <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
             One person almost never has the whole picture. Legacy is built around the fact that the
             rest of it lives in other people&apos;s heads.
           </p>
         </div>
 
-        <div className="mt-16 grid gap-6 md:grid-cols-3">
+        <div className="mt-10 grid gap-4 sm:mt-16 sm:gap-6 md:grid-cols-3">
           {STEPS.map((step, index) => (
             <motion.div
               key={step.title}
@@ -50,7 +50,7 @@ export function HowItWorks() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
               transition={{ duration: 0.55, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="card-lift rounded-2xl border border-border bg-card p-7"
+              className="card-lift rounded-2xl border border-border bg-card p-6 sm:p-7"
             >
               <div className="flex items-center gap-3">
                 <span className="grid size-10 place-items-center rounded-xl bg-ochre-soft text-ochre">

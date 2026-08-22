@@ -231,7 +231,7 @@ export function PersonEditorDialog({
     <Dialog open onOpenChange={(open) => !open && !busy && onClose()}>
       <DialogContent className="max-h-[92dvh] gap-0 overflow-hidden p-0 sm:max-w-2xl">
         <form onSubmit={submit} className="flex max-h-[92dvh] flex-col">
-          <DialogHeader className="border-b border-border px-6 py-5">
+          <DialogHeader className="border-b border-border px-4 py-4 pr-12 text-left sm:px-6 sm:py-5">
             <DialogTitle className="font-display text-xl">{title}</DialogTitle>
             <DialogDescription>
               Only a first name is required. Everything else can be filled in later, by you or by
@@ -239,7 +239,7 @@ export function PersonEditorDialog({
             </DialogDescription>
           </DialogHeader>
 
-          <div className="flex-1 space-y-7 overflow-y-auto px-6 py-6">
+          <div className="flex-1 space-y-6 overflow-y-auto px-4 py-5 sm:space-y-7 sm:px-6 sm:py-6">
             {intent.mode === 'create' && anchor && intent.relateTo && (
               <RelationshipSection
                 anchorName={displayName(anchor)}
@@ -426,7 +426,7 @@ export function PersonEditorDialog({
             </Section>
           </div>
 
-          <DialogFooter className="gap-2 border-t border-border px-6 py-4 sm:justify-between">
+          <DialogFooter className="gap-2 border-t border-border px-4 py-3 sm:flex-row sm:justify-between sm:px-6 sm:py-4">
             {existing ? (
               <Button
                 type="button"
@@ -444,10 +444,20 @@ export function PersonEditorDialog({
             )}
 
             <div className="flex gap-2">
-              <Button type="button" variant="ghost" onClick={onClose} disabled={busy}>
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={onClose}
+                disabled={busy}
+                className="flex-1 sm:flex-none"
+              >
                 Cancel
               </Button>
-              <Button type="submit" disabled={busy || !form.givenName.trim()} className="gap-2">
+              <Button
+                type="submit"
+                disabled={busy || !form.givenName.trim()}
+                className="flex-1 gap-2 sm:flex-none"
+              >
                 {busy && <Loader2 className="size-4 animate-spin" />}
                 {existing ? 'Save changes' : 'Add to tree'}
               </Button>
@@ -482,7 +492,7 @@ function RelationshipSection({
   if (!showUnionPicker && !showParentKind) return null;
 
   return (
-    <div className="rounded-xl border border-ochre/25 bg-ochre-soft/40 p-5">
+    <div className="rounded-xl border border-ochre/25 bg-ochre-soft/40 p-4 sm:p-5">
       <p className="text-sm font-medium">
         This person will be recorded as {anchorName}&apos;s {RELATION_WORD[relation]}.
       </p>

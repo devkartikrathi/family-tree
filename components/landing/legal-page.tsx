@@ -15,7 +15,7 @@ export function LegalPage({
   return (
     <div className="relative isolate min-h-screen">
       <SiteHeader />
-      <main className="mx-auto max-w-2xl px-5 py-16">
+      <main className="mx-auto max-w-2xl px-4 py-12 sm:px-5 sm:py-16">
         <Link
           href="/"
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
@@ -24,7 +24,7 @@ export function LegalPage({
           Back
         </Link>
 
-        <h1 className="font-display mt-6 text-4xl font-semibold tracking-tight">{title}</h1>
+        <h1 className="font-display mt-6 text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h1>
         <p className="mt-2 text-sm text-muted-foreground">Last updated {updated}</p>
 
         <div

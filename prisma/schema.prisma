@@ -89,6 +89,8 @@ model Invite {
 // The tree
 // ---------------------------------------------------------------------------
 
+/// Legacy. The canvas always lays itself out by generation now; the column is
+/// kept only so existing databases need no migration.
 enum LayoutMode {
   AUTO
   FREEFORM
@@ -99,7 +101,9 @@ model Tree {
   name        String
   description String?
   accent      String?    @default("ochre")
-  layoutMode  LayoutMode @default(AUTO)
+
+  /// Legacy — unused. See the note on LayoutMode.
+  layoutMode LayoutMode @default(AUTO)
 
   /// When true, birth dates / places / notes of living people are withheld
   /// from VIEWERs. Editors and above always see everything.
@@ -159,7 +163,7 @@ model Person {
   bio        String?
   photoUrl   String?
 
-  /// Freeform canvas coordinates. Only honoured when the tree is in FREEFORM mode.
+  /// Legacy freeform canvas coordinates — unused. Positions are computed.
   posX Float?
   posY Float?
 

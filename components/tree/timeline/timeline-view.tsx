@@ -169,7 +169,7 @@ export function TimelineView({
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b border-border px-5 py-4">
+      <div className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3 sm:px-5 sm:py-4">
         <div>
           <p className="font-display text-lg font-semibold tracking-tight">
             {span.from} – {span.to}
@@ -200,20 +200,20 @@ export function TimelineView({
       </div>
 
       <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto">
-        <div className="mx-auto max-w-3xl px-5 py-8">
+        <div className="mx-auto max-w-3xl px-4 py-6 sm:px-5 sm:py-8">
           {decades.map(([decade, decadeEvents]) => (
             <section key={decade} className="relative">
-              <div className="sticky top-0 z-10 -mx-5 bg-background/95 px-5 py-2 backdrop-blur">
+              <div className="sticky top-0 z-10 -mx-4 bg-background/95 px-4 py-2 backdrop-blur sm:-mx-5 sm:px-5">
                 <div className="flex items-baseline gap-3">
-                  <h2 className="font-display text-2xl font-semibold tracking-tight">{decade}s</h2>
-                  <span className="text-xs text-muted-foreground">
+                  <h2 className="font-display text-xl font-semibold tracking-tight sm:text-2xl">{decade}s</h2>
+                  <span className="hidden text-xs whitespace-nowrap text-muted-foreground sm:inline">
                     {decadeEvents.length} {decadeEvents.length === 1 ? 'moment' : 'moments'}
                   </span>
                   <span className="h-px flex-1 bg-border" />
                 </div>
               </div>
 
-              <ol className="relative mt-3 mb-8 space-y-1 border-l border-border pl-6">
+              <ol className="relative mt-3 mb-8 space-y-1 border-l border-border pl-5 sm:pl-6">
                 {decadeEvents.map((event) => {
                   const Icon = ICONS[event.kind];
                   const active = event.people.some((person) => person.id === selectedId);
@@ -222,7 +222,7 @@ export function TimelineView({
                     <li key={event.id} className="relative">
                       <span
                         className={cn(
-                          'absolute top-3.5 -left-[1.9rem] grid size-6 place-items-center rounded-full ring-4 ring-background',
+                          'absolute top-3.5 -left-[1.72rem] grid size-6 place-items-center rounded-full ring-4 ring-background sm:-left-[1.97rem]',
                           TONES[event.kind],
                         )}
                       >
@@ -233,7 +233,7 @@ export function TimelineView({
                         type="button"
                         onClick={() => onSelect(event.people[0].id)}
                         className={cn(
-                          'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors',
+                          'flex w-full items-center gap-2.5 rounded-xl px-2 py-2.5 text-left transition-colors sm:gap-3 sm:px-3',
                           active ? 'bg-ochre-soft/50' : 'hover:bg-muted/60',
                         )}
                       >
@@ -249,7 +249,7 @@ export function TimelineView({
                         </div>
 
                         <div className="min-w-0 flex-1">
-                          <p className="truncate text-sm">
+                          <p className="line-clamp-2 text-sm sm:line-clamp-1">
                             {event.sentence}
                             {event.place && (
                               <span className="text-muted-foreground"> in {event.place}</span>

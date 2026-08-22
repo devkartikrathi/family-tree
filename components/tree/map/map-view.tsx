@@ -247,7 +247,7 @@ export function MapView({
               }}
             >
               <Popup>
-                <div className="flex min-w-52 items-start gap-3 p-3">
+                <div className="flex w-[min(15rem,70vw)] items-start gap-3 p-3">
                   <PersonAvatar person={pin.person} size="md" />
                   <div className="min-w-0">
                     <p className="font-display text-sm font-semibold">{displayName(pin.person)}</p>
@@ -267,7 +267,7 @@ export function MapView({
         <FitToSelection pins={pins} selectedId={selectedId} />
       </MapContainer>
 
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-[500] flex justify-between gap-3 p-4">
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[500] flex justify-between gap-3 p-3 sm:p-4">
         <div className="pointer-events-auto rounded-xl border border-border bg-card/95 p-3 shadow-[var(--shadow-lift)] backdrop-blur">
           <p className="mb-2 text-[0.7rem] font-semibold tracking-[0.14em] text-muted-foreground uppercase">
             Show

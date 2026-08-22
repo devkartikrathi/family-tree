@@ -117,7 +117,7 @@ export function CommandPalette({
         onValueChange={setQuery}
       />
 
-      <CommandList className="max-h-[26rem]">
+      <CommandList className="max-h-[min(26rem,60dvh)]">
         {query.trim() && matches.length === 0 && (
           <p className="px-4 py-6 text-center text-sm text-muted-foreground">
             Nobody in {tree.name} matches “{query.trim()}”.

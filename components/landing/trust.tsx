@@ -40,20 +40,20 @@ const ROLES = [
 
 export function Trust() {
   return (
-    <section id="privacy" className="border-t border-border/70 bg-surface-sunken/40 px-5 py-24">
+    <section id="privacy" className="border-t border-border/70 bg-surface-sunken/40 px-4 py-16 sm:px-5 sm:py-24">
       <div className="mx-auto max-w-6xl">
         <div className="max-w-2xl">
           <p className="text-sm font-medium tracking-wide text-sage uppercase">Privacy</p>
-          <h2 className="font-display mt-3 text-4xl font-semibold tracking-tight sm:text-[2.75rem]">
+          <h2 className="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl md:text-[2.75rem]">
             You are handing us your family. We know what that means.
           </h2>
-          <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+          <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
             Birth dates, addresses, the names of children — this is the most personal data most
             people will ever type into anything. Here is exactly how it is handled.
           </p>
         </div>
 
-        <div className="mt-14 grid gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
+        <div className="mt-10 grid gap-6 sm:mt-14 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:gap-10">
           <div className="grid gap-4 sm:grid-cols-2">
             {PROMISES.map((promise, index) => (
               <motion.div
@@ -74,7 +74,7 @@ export function Trust() {
           </div>
 
           <div className="lg:sticky lg:top-24 lg:self-start">
-            <div className="rounded-2xl border border-border bg-card p-7">
+            <div className="rounded-2xl border border-border bg-card p-6 sm:p-7">
               <h3 className="font-display text-lg font-semibold tracking-tight">
                 Four roles, decided by you
               </h3>

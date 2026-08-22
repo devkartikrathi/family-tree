@@ -113,10 +113,10 @@ export function UnionEditorDialog({
 
   return (
     <Dialog open onOpenChange={(open) => !open && !busy && onClose()}>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="max-h-[92dvh] overflow-y-auto sm:max-w-lg">
         <form onSubmit={save}>
           <DialogHeader>
-            <DialogTitle className="font-display text-xl">{names.join(' & ')}</DialogTitle>
+            <DialogTitle className="font-display pr-8 text-xl">{names.join(' & ')}</DialogTitle>
             <DialogDescription>
               Recording when and where a marriage began — and whether it ended — is what lets the
               timeline and the map tell the whole story.
@@ -190,7 +190,7 @@ export function UnionEditorDialog({
             </div>
           </div>
 
-          <DialogFooter className="gap-2 sm:justify-between">
+          <DialogFooter className="gap-2 sm:flex-row sm:justify-between">
             {canEdit ? (
               <Button
                 type="button"
@@ -208,10 +208,20 @@ export function UnionEditorDialog({
             )}
 
             <div className="flex gap-2">
-              <Button type="button" variant="ghost" onClick={onClose} disabled={busy}>
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={onClose}
+                disabled={busy}
+                className="flex-1 sm:flex-none"
+              >
                 Cancel
               </Button>
-              <Button type="submit" disabled={busy || !canEdit} className="gap-2">
+              <Button
+                type="submit"
+                disabled={busy || !canEdit}
+                className="flex-1 gap-2 sm:flex-none"
+              >
                 {busy && <Loader2 className="size-4 animate-spin" />}
                 Save
               </Button>

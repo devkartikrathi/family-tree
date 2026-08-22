@@ -1,55 +1,37 @@
 'use client';
 
-import { useState } from 'react';
 import { useReactFlow } from '@xyflow/react';
-import { toast } from 'sonner';
-import { Info, Maximize2, Minus, Move, Plus, Sparkles } from 'lucide-react';
+import { Info, Maximize2, Minus, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useTree } from '@/lib/hooks/use-tree';
-import { messageFor } from '@/lib/api-client';
 import { treeStats } from '@/lib/domain/graph';
-import { cn } from '@/lib/utils';
 
 export function CanvasControls() {
   const flow = useReactFlow();
-  const { tree, canManage, updateTree, index, layout } = useTree();
-  const [busy, setBusy] = useState(false);
-  const freeform = tree.layoutMode === 'FREEFORM';
+  const { index, layout } = useTree();
   const stats = treeStats(index, layout.generationCount);
 
-  const setLayoutMode = async (mode: 'AUTO' | 'FREEFORM') => {
-    setBusy(true);
-    try {
-      await updateTree({ layoutMode: mode });
-      toast.success(
-        mode === 'AUTO'
-          ? 'Back to automatic layout — generations line themselves up.'
-          : 'Freeform layout on. Drag anyone anywhere; positions are saved.',
-      );
-      if (mode === 'AUTO') setTimeout(() => flow.fitView({ padding: 0.24, duration: 600 }), 80);
-    } catch (error) {
-      toast.error(messageFor(error));
-    } finally {
-      setBusy(false);
-    }
-  };
-
   return (
-    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex items-end justify-between gap-3 p-4">
-      <div className="pointer-events-auto lg:ml-[13.5rem]">
+    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex items-end justify-between gap-2 p-3 sm:gap-3 sm:p-4">
+      <div className="pointer-events-auto min-w-0 lg:ml-[13.5rem]">
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline" size="sm" className="gap-1.5 bg-card/90 backdrop-blur">
               <Info className="size-3.5" />
               <span className="font-display font-semibold">{stats.people}</span>
-              <span className="text-muted-foreground">
+              <span className="truncate text-muted-foreground">
                 {stats.people === 1 ? 'person' : 'people'}
               </span>
             </Button>
           </PopoverTrigger>
-          <PopoverContent align="start" side="top" className="w-72">
+          <PopoverContent
+            align="start"
+            side="top"
+            collisionPadding={12}
+            className="w-[min(18rem,calc(100vw-1.5rem))]"
+          >
             <p className="font-display text-sm font-semibold">At a glance</p>
             <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2.5 text-sm">
               <Stat label="People" value={stats.people} />
@@ -73,72 +55,51 @@ export function CanvasControls() {
         </Popover>
       </div>
 
-      <div className="pointer-events-auto flex items-center gap-2">
-        {canManage && (
-          <div className="flex items-center gap-0.5 rounded-full border border-border bg-card/90 p-0.5 backdrop-blur">
-            <ModeButton
-              active={!freeform}
-              disabled={busy}
-              icon={<Sparkles className="size-3.5" />}
-              label="Automatic layout"
-              onClick={() => setLayoutMode('AUTO')}
-            />
-            <ModeButton
-              active={freeform}
-              disabled={busy}
-              icon={<Move className="size-3.5" />}
-              label="Freeform — drag people anywhere"
-              onClick={() => setLayoutMode('FREEFORM')}
-            />
-          </div>
-        )}
+      <div className="pointer-events-auto flex shrink-0 items-center gap-0.5 rounded-full border border-border bg-card/90 p-0.5 backdrop-blur">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              className="rounded-full"
+              onClick={() => flow.zoomOut({ duration: 180 })}
+              aria-label="Zoom out"
+            >
+              <Minus className="size-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Zoom out</TooltipContent>
+        </Tooltip>
 
-        <div className="flex items-center gap-0.5 rounded-full border border-border bg-card/90 p-0.5 backdrop-blur">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                className="rounded-full"
-                onClick={() => flow.zoomOut({ duration: 180 })}
-                aria-label="Zoom out"
-              >
-                <Minus className="size-3.5" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Zoom out</TooltipContent>
-          </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              className="rounded-full"
+              onClick={() => flow.fitView({ padding: 0.24, duration: 500 })}
+              aria-label="Fit the whole tree"
+            >
+              <Maximize2 className="size-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Fit the whole tree</TooltipContent>
+        </Tooltip>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                className="rounded-full"
-                onClick={() => flow.fitView({ padding: 0.24, duration: 500 })}
-                aria-label="Fit the whole tree"
-              >
-                <Maximize2 className="size-3.5" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Fit the whole tree</TooltipContent>
-          </Tooltip>
-
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                className="rounded-full"
-                onClick={() => flow.zoomIn({ duration: 180 })}
-                aria-label="Zoom in"
-              >
-                <Plus className="size-3.5" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Zoom in</TooltipContent>
-          </Tooltip>
-        </div>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              className="rounded-full"
+              onClick={() => flow.zoomIn({ duration: 180 })}
+              aria-label="Zoom in"
+            >
+              <Plus className="size-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Zoom in</TooltipContent>
+        </Tooltip>
       </div>
     </div>
   );
@@ -150,43 +111,6 @@ function Stat({ label, value }: { label: string; value: number }) {
       <dt className="text-muted-foreground">{label}</dt>
       <dd className="font-display font-semibold">{value}</dd>
     </div>
-  );
-}
-
-function ModeButton({
-  active,
-  disabled,
-  icon,
-  label,
-  onClick,
-}: {
-  active: boolean;
-  disabled: boolean;
-  icon: React.ReactNode;
-  label: string;
-  onClick: () => void;
-}) {
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <button
-          type="button"
-          onClick={onClick}
-          disabled={disabled}
-          aria-pressed={active}
-          aria-label={label}
-          className={cn(
-            'grid size-8 place-items-center rounded-full transition-colors disabled:opacity-50',
-            active
-              ? 'bg-secondary text-foreground shadow-[var(--shadow-paper)]'
-              : 'text-muted-foreground hover:text-foreground',
-          )}
-        >
-          {icon}
-        </button>
-      </TooltipTrigger>
-      <TooltipContent>{label}</TooltipContent>
-    </Tooltip>
   );
 }
 
